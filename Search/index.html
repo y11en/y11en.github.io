@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang=zh>
 <head>
     <!-- so meta -->
     <meta charset="utf-8">
@@ -10,7 +10,8 @@
 <meta property="og:title" content="Y11en">
 <meta property="og:url" content="https://y11en.github.io/Search/index.html">
 <meta property="og:site_name" content="Y11en">
-<meta property="og:updated_time" content="2017-10-10T11:50:33.974Z">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-03-31T16:00:19.525Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Y11en">
     
@@ -40,12 +41,16 @@
     
 </head>
 
-<body>
+<body class="max-width mx-auto px3">
     
-    <div class="content index width mx-auto px2 my4">
+    <div class="content index my4">
         
           <header id="header">
   <a href="/">
+  
+    
+      <div id="logo" style="background-image: url(/images/logo.png);"></div>
+    
   
     <div id="title">
       <h1>Y11en</h1>
@@ -54,20 +59,20 @@
   <div id="nav">
     <ul>
       <li class="icon">
-        <a href="#"><i class="fa fa-bars fa-2x"></i></a>
+        <a href="#"><i class="fas fa-bars fa-2x"></i></a>
       </li>
        
-        <li><a href="/">Home</a></li>
+        <li><a href="/">首页</a></li>
        
-        <li><a href="/about/">About</a></li>
+        <li><a href="/about/">关于</a></li>
        
-        <li><a href="/archives/">Writing</a></li>
+        <li><a href="/archives/">归档</a></li>
        
-        <li><a href="http://github.com/y11en">Projects</a></li>
+        <li><a href="http://github.com/y11en">项目</a></li>
        
-        <li><a href="/Search/">Search</a></li>
+        <li><a href="/Links/">link</a></li>
        
-        <li><a href="/Links/">Links</a></li>
+        <li><a href="/Search/">搜索</a></li>
       
     </ul>
   </div>
@@ -78,10 +83,10 @@
   
     <section id="search">
   <form>
-    <input type="text" class="search-input" id="search-input" placeholder="search...">
+    <input type="text" class="search-input" id="search-input" placeholder="搜索...">
   </form>
   <div id="search-result"></div>
-  <p class="search-no-result">No results found</p>
+  <p class="search-no-result">抱歉，没有符合您搜索条件的结果。请换其它关键词再试。</p>
 </section>
 
   
@@ -103,17 +108,17 @@
     <nav>
       <ul>
          
-          <li><a href="/">Home</a></li>
+          <li><a href="/">首页</a></li>
          
-          <li><a href="/about/">About</a></li>
+          <li><a href="/about/">关于</a></li>
          
-          <li><a href="/archives/">Writing</a></li>
+          <li><a href="/archives/">归档</a></li>
          
-          <li><a href="http://github.com/y11en">Projects</a></li>
+          <li><a href="http://github.com/y11en">项目</a></li>
          
-          <li><a href="/Search/">Search</a></li>
+          <li><a href="/Links/">link</a></li>
          
-          <li><a href="/Links/">Links</a></li>
+          <li><a href="/Search/">搜索</a></li>
         
       </ul>
     </nav>
@@ -123,13 +128,12 @@
 </body>
 </html>
 <!-- styles -->
-<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
-<link rel="stylesheet" href="/lib/meslo-LG/styles.css">
-<link rel="stylesheet" href="/lib/justified-gallery/justifiedGallery.min.css">
+<link rel="stylesheet" href="/lib/font-awesome/css/fontawesome-all.min.css">
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
 
 <!-- jquery -->
 <script src="/lib/jquery/jquery.min.js"></script>
-<script src="/lib/justified-gallery/jquery.justifiedGallery.min.js"></script>
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
 <script src="/js/main.js"></script>
 <!-- search -->
 
@@ -172,6 +176,8 @@
         ga('create', 'UA-106762835-1', 'auto');
         ga('send', 'pageview');
     </script>
+
+<!-- Baidu Analytics -->
 
 <!-- Disqus Comments -->
 

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang=zh>
 <head>
     <!-- so meta -->
     <meta charset="utf-8">
@@ -13,14 +13,15 @@
 <meta property="og:url" content="https://y11en.github.io/2017/03/05/[开发篇]android开发之activity/index.html">
 <meta property="og:site_name" content="Y11en">
 <meta property="og:description" content="Activity:界面交互 Intent: 数据传递  ###一个主界面&amp;lt;activity android:name=&quot;.MyActivity&quot;&amp;gt;    &amp;lt;intent-filter&amp;gt;        &amp;lt;action android:name=&quot;android.intent.action.MAIN&quot; /&amp;gt;        &amp;lt;category android:">
-<meta property="og:image" content="https://y11en.github.io/2017/03/05/[开发篇]android开发之activity/~/16-01-58.jpg">
-<meta property="og:image" content="https://y11en.github.io/2017/03/05/[开发篇]android开发之activity/~/16-03-24.jpg">
-<meta property="og:image" content="https://y11en.github.io/2017/03/05/[开发篇]android开发之activity/~/22-06-55.jpg">
-<meta property="og:updated_time" content="2018-03-31T09:48:48.991Z">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://y11en.github.io/2017/03/05/[开发篇]android开发之activity/16-01-58.jpg">
+<meta property="og:image" content="https://y11en.github.io/2017/03/05/[开发篇]android开发之activity/16-03-24.jpg">
+<meta property="og:image" content="https://y11en.github.io/2017/03/05/[开发篇]android开发之activity/22-06-55.jpg">
+<meta property="og:updated_time" content="2018-03-31T15:30:02.561Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="android开发之activity">
 <meta name="twitter:description" content="Activity:界面交互 Intent: 数据传递  ###一个主界面&amp;lt;activity android:name=&quot;.MyActivity&quot;&amp;gt;    &amp;lt;intent-filter&amp;gt;        &amp;lt;action android:name=&quot;android.intent.action.MAIN&quot; /&amp;gt;        &amp;lt;category android:">
-<meta name="twitter:image" content="https://y11en.github.io/2017/03/05/[开发篇]android开发之activity/~/16-01-58.jpg">
+<meta name="twitter:image" content="https://y11en.github.io/2017/03/05/[开发篇]android开发之activity/16-01-58.jpg">
     
     
         
@@ -48,27 +49,27 @@
     
 </head>
 
-<body>
+<body class="max-width mx-auto px3">
     
       <div id="header-post">
-  <a id="menu-icon" href="#"><i class="fa fa-bars fa-lg"></i></a>
-  <a id="menu-icon-tablet" href="#"><i class="fa fa-bars fa-lg"></i></a>
-  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa fa-chevron-up fa-lg"></i></a>
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
   <span id="menu">
     <span id="nav">
       <ul>
          
-          <li><a href="/">Home</a></li>
+          <li><a href="/">首页</a></li>
          
-          <li><a href="/about/">About</a></li>
+          <li><a href="/about/">关于</a></li>
          
-          <li><a href="/archives/">Writing</a></li>
+          <li><a href="/archives/">归档</a></li>
          
-          <li><a href="http://github.com/y11en">Projects</a></li>
+          <li><a href="http://github.com/y11en">项目</a></li>
          
-          <li><a href="/Search/">Search</a></li>
+          <li><a href="/Links/">link</a></li>
          
-          <li><a href="/Links/">Links</a></li>
+          <li><a href="/Search/">搜索</a></li>
         
       </ul>
     </span>
@@ -76,32 +77,32 @@
     <span id="actions">
       <ul>
         
-        <li><a class="icon" href="/2017/03/05/[逆向篇]smali汇编学习/"><i class="fa fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        <li><a class="icon" href="/2017/03/05/Android Studio NDK配置/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
         
         
-        <li><a class="icon" href="/2017/03/05/[开发篇]android开发之内容提供者/"><i class="fa fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        <li><a class="icon" href="/2017/03/05/[开发篇]android开发之简单http请求/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
         
-        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
-        <li><a class="icon" href="#"><i class="fa fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
       </ul>
-      <span id="i-prev" class="info" style="display:none;">Previous post</span>
-      <span id="i-next" class="info" style="display:none;">Next post</span>
-      <span id="i-top" class="info" style="display:none;">Back to top</span>
-      <span id="i-share" class="info" style="display:none;">Share post</span>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
     </span>
     <br/>
     <div id="share" style="display: none">
       <ul>
-  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://y11en.github.io/2017/03/05/[开发篇]android开发之activity/"><i class="fa fa-facebook " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://twitter.com/share?url=https://y11en.github.io/2017/03/05/[开发篇]android开发之activity/&text=android开发之activity"><i class="fa fa-twitter " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://y11en.github.io/2017/03/05/[开发篇]android开发之activity/&title=android开发之activity"><i class="fa fa-linkedin " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://y11en.github.io/2017/03/05/[开发篇]android开发之activity/&is_video=false&description=android开发之activity"><i class="fa fa-pinterest " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=android开发之activity&body=Check out this article: https://y11en.github.io/2017/03/05/[开发篇]android开发之activity/"><i class="fa fa-envelope " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://getpocket.com/save?url=https://y11en.github.io/2017/03/05/[开发篇]android开发之activity/&title=android开发之activity"><i class="fa fa-get-pocket " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://reddit.com/submit?url=https://y11en.github.io/2017/03/05/[开发篇]android开发之activity/&title=android开发之activity"><i class="fa fa-reddit " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://y11en.github.io/2017/03/05/[开发篇]android开发之activity/&title=android开发之activity"><i class="fa fa-stumbleupon " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://digg.com/submit?url=https://y11en.github.io/2017/03/05/[开发篇]android开发之activity/&title=android开发之activity"><i class="fa fa-digg " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://y11en.github.io/2017/03/05/[开发篇]android开发之activity/&name=android开发之activity&description="><i class="fa fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://y11en.github.io/2017/03/05/[开发篇]android开发之activity/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://y11en.github.io/2017/03/05/[开发篇]android开发之activity/&text=android开发之activity"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://y11en.github.io/2017/03/05/[开发篇]android开发之activity/&title=android开发之activity"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://y11en.github.io/2017/03/05/[开发篇]android开发之activity/&is_video=false&description=android开发之activity"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=android开发之activity&body=Check out this article: https://y11en.github.io/2017/03/05/[开发篇]android开发之activity/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://y11en.github.io/2017/03/05/[开发篇]android开发之activity/&title=android开发之activity"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://y11en.github.io/2017/03/05/[开发篇]android开发之activity/&title=android开发之activity"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://y11en.github.io/2017/03/05/[开发篇]android开发之activity/&title=android开发之activity"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://y11en.github.io/2017/03/05/[开发篇]android开发之activity/&title=android开发之activity"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://y11en.github.io/2017/03/05/[开发篇]android开发之activity/&name=android开发之activity&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
 </ul>
 
     </div>
@@ -112,7 +113,7 @@
 </div>
 
     
-    <div class="content index width mx-auto px2 my4">
+    <div class="content index my4">
         
         <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
   <header>
@@ -135,7 +136,7 @@
 
       
     <div class="article-tag">
-        <i class="fa fa-tag"></i>
+        <i class="fas fa-tag"></i>
         <a class="tag-link" href="/tags/MobSec/">MobSec</a>
     </div>
 
@@ -158,7 +159,7 @@
 <p>####打开网页<br><figure class="highlight java"><table><tr><td class="code"><pre><div class="line"></div><div class="line">Intent intent = <span class="keyword">new</span> Intent(Intent.ACTION_VIEW);</div><div class="line">intent.setData(Uri.parse(<span class="string">"http://ring3.xyz"</span>));</div><div class="line">Toast.makeText(SecondActivity.<span class="keyword">this</span>,Uri.parse(<span class="string">"http://ring3.xyz"</span>).toString(),Toast.LENGTH_SHORT).show();</div><div class="line">startActivity(intent);</div></pre></td></tr></table></figure></p>
 <p>####传递参数 &amp; 接收参数<br><figure class="highlight java"><table><tr><td class="code"><pre><div class="line">String data = <span class="string">"你好世界"</span>;</div><div class="line">Intent intent = <span class="keyword">new</span> Intent(SecondActivity.<span class="keyword">this</span>,ThirdActivity.class);</div><div class="line">intent.putExtra(<span class="string">"extra_data"</span>,data);</div><div class="line">startActivity(intent);</div><div class="line"><span class="comment">/*-----------*---------------*-----------*/</span></div><div class="line">Intent intent = getIntent();</div><div class="line">String data = intent.getStringExtra(<span class="string">"extra_data"</span>);</div><div class="line">Log.d(TAG, <span class="string">"onCreate: "</span> + data);</div></pre></td></tr></table></figure></p>
 <p>####启动activity并获取返回值<br><figure class="highlight java"><table><tr><td class="code"><pre><div class="line"><span class="comment">// 通过startActivityForResult方法启动activity并获得返回数据</span></div><div class="line">Intent intent = <span class="keyword">new</span> Intent(SecondActivity.<span class="keyword">this</span>,ThirdActivity.class);</div><div class="line">startActivityForResult(intent,<span class="number">1</span>);</div><div class="line"></div><div class="line"><span class="comment">//同时需要重写 onActivityResult 方法，以便获取返回值</span></div><div class="line"><span class="meta">@Override</span></div><div class="line"><span class="keyword">protected</span> </div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">onActivityResult</span><span class="params">(<span class="keyword">int</span> requestCode, <span class="keyword">int</span> resultCode, Intent data)</span> </span></div><div class="line"><span class="function"></span>&#123;</div><div class="line">    <span class="keyword">switch</span> (requestCode)</div><div class="line">    &#123;</div><div class="line">    <span class="keyword">case</span> <span class="number">1</span>:</div><div class="line">        <span class="keyword">if</span> (resultCode == RESULT_OK)</div><div class="line">        &#123;</div><div class="line">            String returnedData = data.getStringExtra(<span class="string">"ret_data"</span>);</div><div class="line">            Log.d(TAG, <span class="string">"onActivityResult: "</span> + returnedData);</div><div class="line">        &#125;</div><div class="line">    <span class="keyword">break</span>;</div><div class="line">    <span class="keyword">default</span>:</div><div class="line">        <span class="keyword">break</span>;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">/*----------------*------------*---------------*/</span></div><div class="line"><span class="comment">// 被启动的activity，通过 setResult方法 返回数据</span></div><div class="line">Button button = (Button) findViewById(R.id.button_3);</div><div class="line">    button.setOnClickListener(<span class="keyword">new</span> View.OnClickListener() &#123;</div><div class="line">        <span class="meta">@Override</span></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span><span class="params">(View v)</span> </span>&#123;</div><div class="line">            Intent intent = <span class="keyword">new</span> Intent();</div><div class="line">            intent.putExtra(<span class="string">"ret_data"</span>,<span class="string">"这是返回值哦~"</span>);</div><div class="line">            setResult(RESULT_OK,intent);</div><div class="line">            finish();</div><div class="line">        &#125;</div><div class="line">    &#125;);</div></pre></td></tr></table></figure></p>
-<h3 id="activity生存期"><a href="#activity生存期" class="headerlink" title="activity生存期"></a>activity生存期</h3><p><img src="~/16-01-58.jpg" alt=""><br><img src="~/16-03-24.jpg" alt=""></p>
+<h3 id="activity生存期"><a href="#activity生存期" class="headerlink" title="activity生存期"></a>activity生存期</h3><p><img src="./16-01-58.jpg" alt=""><br><img src="./16-03-24.jpg" alt=""></p>
 <h3 id="启动模式"><a href="#启动模式" class="headerlink" title="启动模式"></a>启动模式</h3><h4 id="声明方式"><a href="#声明方式" class="headerlink" title="声明方式"></a>声明方式</h4><figure class="highlight xml"><table><tr><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">activity</span></span></div><div class="line"><span class="tag">    <span class="attr">...</span>    </span></div><div class="line"><span class="tag">    <span class="attr">android:launchMode</span>=<span class="string">"xx"</span>&gt;</span></div><div class="line">    ...</div><div class="line"><span class="tag">&lt;/<span class="name">activity</span>&gt;</span></div></pre></td></tr></table></figure>
 <h4 id="standard：每次都生成一个新的activity放在栈顶"><a href="#standard：每次都生成一个新的activity放在栈顶" class="headerlink" title="standard：每次都生成一个新的activity放在栈顶"></a><code>standard</code>：每次都生成一个新的activity放在栈顶</h4><figure class="highlight java"><table><tr><td class="code"><pre><div class="line">startActivity(xx.<span class="keyword">this</span>,xx.class);</div><div class="line">startActivity(xx.<span class="keyword">this</span>,xx.class);</div><div class="line">startActivity(xx.<span class="keyword">this</span>,xx.class);</div><div class="line"><span class="comment">//则需要按三次back键进行返回</span></div></pre></td></tr></table></figure>
 <h4 id="singleTop-仅当不在栈顶时生成"><a href="#singleTop-仅当不在栈顶时生成" class="headerlink" title="singleTop:仅当不在栈顶时生成"></a><code>singleTop</code>:仅当不在栈顶时生成</h4><figure class="highlight java"><table><tr><td class="code"><pre><div class="line"><span class="comment">//当前界面可视</span></div><div class="line">startActivity(xx.<span class="keyword">this</span>,xx.class);   </div><div class="line">startActivity(xx.<span class="keyword">this</span>,xx.class);    </div><div class="line">startActivity(xx.<span class="keyword">this</span>,xx.class);    </div><div class="line"><span class="comment">//则需要按一次back键进行返回</span></div></pre></td></tr></table></figure>
@@ -166,7 +167,7 @@
 <p>对应的xml布局文件<code>layout_title.xml</code>实现如下</p>
 <figure class="highlight xml"><table><tr><td class="code"><pre><div class="line">&lt;?xml version="1.0" encoding="utf-8"?&gt;</div><div class="line"><span class="tag">&lt;<span class="name">LinearLayout</span> <span class="attr">xmlns:android</span>=<span class="string">"http://schemas.android.com/apk/res/android"</span></span></div><div class="line"><span class="tag">    <span class="attr">xmlns:tools</span>=<span class="string">"http://schemas.android.com/tools"</span></span></div><div class="line"><span class="tag">    <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></span></div><div class="line"><span class="tag">    <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span></span></div><div class="line"><span class="tag">    <span class="attr">android:background</span>=<span class="string">"@drawable/title_bg"</span>&gt;</span></div><div class="line"></div><div class="line">    <span class="tag">&lt;<span class="name">Button</span></span></div><div class="line"><span class="tag">        <span class="attr">android:id</span>=<span class="string">"@+id/title_back"</span></span></div><div class="line"><span class="tag">        <span class="attr">android:layout_width</span>=<span class="string">"wrap_content"</span></span></div><div class="line"><span class="tag">        <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span></span></div><div class="line"><span class="tag">        <span class="attr">android:layout_gravity</span>=<span class="string">"center"</span></span></div><div class="line"><span class="tag">        <span class="attr">android:layout_margin</span>=<span class="string">"3dp"</span></span></div><div class="line"><span class="tag">        <span class="attr">android:background</span>=<span class="string">"@drawable/back_bg"</span></span></div><div class="line"><span class="tag">        <span class="attr">android:text</span>=<span class="string">"Back"</span></span></div><div class="line"><span class="tag">        <span class="attr">android:textColor</span>=<span class="string">"#fff"</span></span></div><div class="line"><span class="tag">        /&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">TextView</span></span></div><div class="line"><span class="tag">        <span class="attr">android:id</span>=<span class="string">"@+id/title_text"</span></span></div><div class="line"><span class="tag">        <span class="attr">android:layout_width</span>=<span class="string">"0dp"</span></span></div><div class="line"><span class="tag">        <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span></span></div><div class="line"><span class="tag">        <span class="attr">android:layout_gravity</span>=<span class="string">"center"</span></span></div><div class="line"><span class="tag">        <span class="attr">android:layout_weight</span>=<span class="string">"1"</span></span></div><div class="line"><span class="tag">        <span class="attr">android:gravity</span>=<span class="string">"center"</span></span></div><div class="line"><span class="tag">        <span class="attr">android:text</span>=<span class="string">"Title text"</span></span></div><div class="line"><span class="tag">        <span class="attr">android:textColor</span>=<span class="string">"#fff"</span></span></div><div class="line"><span class="tag">        <span class="attr">android:textSize</span>=<span class="string">"24sp"</span></span></div><div class="line"><span class="tag">        <span class="attr">android:background</span>=<span class="string">"@drawable/title_bg"</span></span></div><div class="line"><span class="tag">        /&gt;</span></div><div class="line"></div><div class="line">    <span class="tag">&lt;<span class="name">Button</span></span></div><div class="line"><span class="tag">        <span class="attr">android:id</span>=<span class="string">"@+id/button_3"</span></span></div><div class="line"><span class="tag">        <span class="attr">android:layout_width</span>=<span class="string">"wrap_content"</span></span></div><div class="line"><span class="tag">        <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span></span></div><div class="line"><span class="tag">        <span class="attr">android:layout_gravity</span>=<span class="string">"center"</span></span></div><div class="line"><span class="tag">        <span class="attr">android:layout_margin</span>=<span class="string">"3dp"</span></span></div><div class="line"><span class="tag">        <span class="attr">android:background</span>=<span class="string">"@drawable/edit_bg"</span></span></div><div class="line"><span class="tag">        <span class="attr">android:textColor</span>=<span class="string">"#fff"</span></span></div><div class="line"><span class="tag">        <span class="attr">android:text</span>=<span class="string">"确定3"</span></span></div><div class="line"><span class="tag">        /&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">LinearLayout</span>&gt;</span></div></pre></td></tr></table></figure>
 <p>将上面布局文件引入其他布局中<br><figure class="highlight xml"><table><tr><td class="code"><pre><div class="line">&lt;?xml version="1.0" encoding="utf-8"?&gt;</div><div class="line"><span class="tag">&lt;<span class="name">LinearLayout</span> <span class="attr">xmlns:android</span>=<span class="string">"http://schemas.android.com/apk/res/android"</span></span></div><div class="line"><span class="tag"><span class="attr">android:orientation</span>=<span class="string">"vertical"</span> <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></span></div><div class="line"><span class="tag"><span class="attr">android:layout_height</span>=<span class="string">"match_parent"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">com.cn.yllen.myapplication.TitleLayout</span></span></div><div class="line"><span class="tag">    <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></span></div><div class="line"><span class="tag">    <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">com.cn.yllen.myapplication.TitleLayout</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">LinearLayout</span>&gt;</span></div></pre></td></tr></table></figure></p>
-<p>效果图如下:<br><img src="~/22-06-55.jpg" alt=""></p>
+<p>效果图如下:<br><img src="./22-06-55.jpg" alt=""></p>
 
   </div>
 </article>
@@ -181,17 +182,17 @@
     <div id="nav-footer" style="display: none">
       <ul>
          
-          <li><a href="/">Home</a></li>
+          <li><a href="/">首页</a></li>
          
-          <li><a href="/about/">About</a></li>
+          <li><a href="/about/">关于</a></li>
          
-          <li><a href="/archives/">Writing</a></li>
+          <li><a href="/archives/">归档</a></li>
          
-          <li><a href="http://github.com/y11en">Projects</a></li>
+          <li><a href="http://github.com/y11en">项目</a></li>
          
-          <li><a href="/Search/">Search</a></li>
+          <li><a href="/Links/">link</a></li>
          
-          <li><a href="/Links/">Links</a></li>
+          <li><a href="/Search/">搜索</a></li>
         
       </ul>
     </div>
@@ -202,27 +203,25 @@
 
     <div id="share-footer" style="display: none">
       <ul>
-  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://y11en.github.io/2017/03/05/[开发篇]android开发之activity/"><i class="fa fa-facebook fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://twitter.com/share?url=https://y11en.github.io/2017/03/05/[开发篇]android开发之activity/&text=android开发之activity"><i class="fa fa-twitter fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://y11en.github.io/2017/03/05/[开发篇]android开发之activity/&title=android开发之activity"><i class="fa fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://y11en.github.io/2017/03/05/[开发篇]android开发之activity/&is_video=false&description=android开发之activity"><i class="fa fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=android开发之activity&body=Check out this article: https://y11en.github.io/2017/03/05/[开发篇]android开发之activity/"><i class="fa fa-envelope fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://getpocket.com/save?url=https://y11en.github.io/2017/03/05/[开发篇]android开发之activity/&title=android开发之activity"><i class="fa fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://reddit.com/submit?url=https://y11en.github.io/2017/03/05/[开发篇]android开发之activity/&title=android开发之activity"><i class="fa fa-reddit fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://y11en.github.io/2017/03/05/[开发篇]android开发之activity/&title=android开发之activity"><i class="fa fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://digg.com/submit?url=https://y11en.github.io/2017/03/05/[开发篇]android开发之activity/&title=android开发之activity"><i class="fa fa-digg fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://y11en.github.io/2017/03/05/[开发篇]android开发之activity/&name=android开发之activity&description="><i class="fa fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://y11en.github.io/2017/03/05/[开发篇]android开发之activity/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://y11en.github.io/2017/03/05/[开发篇]android开发之activity/&text=android开发之activity"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://y11en.github.io/2017/03/05/[开发篇]android开发之activity/&title=android开发之activity"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://y11en.github.io/2017/03/05/[开发篇]android开发之activity/&is_video=false&description=android开发之activity"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=android开发之activity&body=Check out this article: https://y11en.github.io/2017/03/05/[开发篇]android开发之activity/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://y11en.github.io/2017/03/05/[开发篇]android开发之activity/&title=android开发之activity"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://y11en.github.io/2017/03/05/[开发篇]android开发之activity/&title=android开发之activity"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://y11en.github.io/2017/03/05/[开发篇]android开发之activity/&title=android开发之activity"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://y11en.github.io/2017/03/05/[开发篇]android开发之activity/&title=android开发之activity"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://y11en.github.io/2017/03/05/[开发篇]android开发之activity/&name=android开发之activity&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
 </ul>
 
     </div>
 
     <div id="actions-footer">
-      <ul>
-        <li id="toc"><a class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa fa-list fa-lg" aria-hidden="true"></i> TOC</a></li>
-        <li id="share"><a class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa fa-share-alt fa-lg" aria-hidden="true"></i> Share</a></li>
-        <li id="top" style="display:none"><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a></li>
-        <li id="menu"><a class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa fa-bars fa-lg" aria-hidden="true"></i> Menu</a></li>
-      </ul>
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
     </div>
 
   </div>
@@ -237,17 +236,17 @@
     <nav>
       <ul>
          
-          <li><a href="/">Home</a></li>
+          <li><a href="/">首页</a></li>
          
-          <li><a href="/about/">About</a></li>
+          <li><a href="/about/">关于</a></li>
          
-          <li><a href="/archives/">Writing</a></li>
+          <li><a href="/archives/">归档</a></li>
          
-          <li><a href="http://github.com/y11en">Projects</a></li>
+          <li><a href="http://github.com/y11en">项目</a></li>
          
-          <li><a href="/Search/">Search</a></li>
+          <li><a href="/Links/">link</a></li>
          
-          <li><a href="/Links/">Links</a></li>
+          <li><a href="/Search/">搜索</a></li>
         
       </ul>
     </nav>
@@ -257,13 +256,12 @@
 </body>
 </html>
 <!-- styles -->
-<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
-<link rel="stylesheet" href="/lib/meslo-LG/styles.css">
-<link rel="stylesheet" href="/lib/justified-gallery/justifiedGallery.min.css">
+<link rel="stylesheet" href="/lib/font-awesome/css/fontawesome-all.min.css">
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
 
 <!-- jquery -->
 <script src="/lib/jquery/jquery.min.js"></script>
-<script src="/lib/justified-gallery/jquery.justifiedGallery.min.js"></script>
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
 <script src="/js/main.js"></script>
 <!-- search -->
 
@@ -277,6 +275,8 @@
         ga('create', 'UA-106762835-1', 'auto');
         ga('send', 'pageview');
     </script>
+
+<!-- Baidu Analytics -->
 
 <!-- Disqus Comments -->
 
