@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+    <title>Y11en</title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    
+<link rel="stylesheet" href="/css/gitment.css">
+
+    <link rel="stylesheet" type="text/css" href="//at.alicdn.com/t/font_859455_eaq7v6w8ktj.css">
+<meta name="generator" content="Hexo 4.2.0"></head>
+<body>
+<header class="header">
+    <div class="header-inner">
+        <div class="header-title">
+
+        </div>
+        <nav class="header-nav">
+            
+            <a href="/" class="header-nav-link" >
+                首页
+            </a>
+            
+
+            
+            <a href="/archives" class="header-nav-link">
+                归档
+            </a>
+            
+
+            
+            <a href="/tags" class="header-nav-link">
+                标签
+            </a>
+            
+
+            
+            <a href="/about/" class="header-nav-link">
+                关于
+            </a>
+            
+        </nav>
+    </div>
+</header>
+<header class="mobile-header">
+    <div class="mobile-nav">
+        <div class="mobile-nav-icon">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <div class="mobile-nav-title">
+            <a href="/" class="mobile-nav-title-link">y11en's Blog</a>
+        </div>
+
+    </div>
+    <nav class="mobile-menu">
+        <ul class="mobile-menu-list">
+            <li class="mobile-menu-item">
+                <i class="iconfont icon-home"></i>
+                <a href="/" class="mobile-nav-link">首页</a>
+            </li>
+            <li class="mobile-menu-item">
+                <i class="iconfont icon-archive"></i>
+                <a href="/archives" class="mobile-nav-link">归档</a>
+            </li>
+            <li class="mobile-menu-item">
+                <i class="iconfont icon-tag"></i>
+                <a href="/tags" class="mobile-nav-link">标签</a>
+            </li>
+            <li class="mobile-menu-item">
+                <i class="iconfont icon-about"></i>
+                <a href="/about/" class="mobile-nav-link">关于</a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<div class="main">
+    <div class="content-inner">
+        <div class="posts">
+    <article class="post-whole">
+        <div class="post-title">
+            <h2 class="title">Dex格式学习</h2>
+            <div class="post-meta">
+                <span class="post-time">2017-03-05</span>
+				
+                <span class="post-visit"> 阅读次数：<span id="busuanzi_value_page_pv"></span></span>
+            </div>
+        </div>
+        <div class="post-toc" id="post-toc">
+    <strong class="post-toc-title">目录</strong>
+    
+    <div class="back-to-top" id="back-to-top">
+        <a href="javascript:void(0);">回到顶部</a>
+    </div>
+</div>
+        <div class="post-content">
+            <p>1.dex header<br>制定dex文件的一些属性，记录其他6部分数据结构在dex文件中的物理偏移</p>
+<p>2.string_ids、type_ids、type_ids、proto_ids、field_ids、method_ids、class_def<br>索引结构区</p>
+<p>3.data<br>真实数据存储在这里</p>
+<p>未经过优化的dex文件结构如下：</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">DexFile</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">    DexHeader   Header;</span><br><span class="line">    DexStringId StringIds[stringIdsSize];</span><br><span class="line">    DexTypeId   TypeIds[typeIdsSize];</span><br><span class="line">    DexProtoId  ProtoIds[protoIdsSize];</span><br><span class="line">    DexFieldId  FieldIds[fieldIdsSize];</span><br><span class="line">    DexMethodId MethodIds[methodIdsSize];</span><br><span class="line">    DexClassDef ClassDefs[classDefsSize];</span><br><span class="line">    DexData     Data[];</span><br><span class="line">    DexLink     LinkData;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>dalvik虚拟机在解析Dex文件的时候，首先根据Dex Header中DexMapList字段，将内容映射到内存</p>
+<p><img src="./14-58-44.jpg" alt=""></p>
+<p><img src="./14-59-05.jpg" alt=""></p>
+
+        </div>
+        
+        <div class="post-tag">
+            
+            <a class="tag" href="/tags/MobSec/" title="MobSec">MobSec</a>
+            
+        </div>
+        
+    </article>
+</div>
+<div class="paginator">
+    
+        
+            <a class="prev" href="/2017/03/05/%5B%E5%BC%80%E5%8F%91%E7%AF%87%5Dandroid%E5%BC%80%E5%8F%91%E4%B9%8B%E7%AE%80%E5%8D%95http%E8%AF%B7%E6%B1%82/">
+                <i class="iconfont icon-prev"></i>
+                <span class="nav-default">android开发之简单http请求</span>
+                <span class="nav-mobile">上一篇</span>
+            </a>
+        
+        
+            <a class="next" href="/2017/03/05/%5B%E9%80%86%E5%90%91%E7%AF%87%5Darm%E6%8C%87%E4%BB%A4%E5%AD%A6%E4%B9%A0/">
+                <span class="nav-default">arm指令学习</span>
+                <span class="nav-mobile">下一篇</span>
+                <i class="iconfont icon-next"></i>
+            </a>
+        
+    
+</div>
+<div id="comment-container"></div>
+    </div>
+</div>
+<footer class="footer-social">
+    
+    <a class="social-link" target="_blank" href="https://github.com/y11en">
+        <i class="iconfont icon-github"></i>
+    </a>
+    
+
+    
+
+    
+
+    <div class="footer-copyright">
+        <p class="time-line">
+            &copy;
+            
+            
+                2015 -
+            
+            2020
+            &nbsp;<i class="iconfont icon-heart"></i>&nbsp;
+            <a target="_blank" href="https://github.com/iJinxin">y11en</a>
+        </p>
+        <p class="theme-info">
+            Powered by <a target="_blank" href="https://hexo.io">Hexo</a>  |  Theme -
+            <a target="_blank" href="https://github.com/iJinxin/hexo-theme-sky">Sky</a>
+        </p>
+    </div>
+</footer>
+</body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<script src="/js/index.js"></script>
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script>
+    
+    var gitment = new Gitment({
+        id: 'Dex格式学习',
+        owner: 'y11en',
+        repo: 'blog_r3_comment',
+        oauth: {
+            client_id: '5049946d5d3f1d55996d',
+            client_secret: 'ebe785ea8e3f9b280d57a372588af2a202f0638c'
+        }
+    });
+    gitment.render('comment-container');
+    
+
+</script>
+</html>

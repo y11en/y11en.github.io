@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+    <title>Y11en</title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    
+<link rel="stylesheet" href="/css/gitment.css">
+
+    <link rel="stylesheet" type="text/css" href="//at.alicdn.com/t/font_859455_eaq7v6w8ktj.css">
+<meta name="generator" content="Hexo 4.2.0"></head>
+<body>
+<header class="header">
+    <div class="header-inner">
+        <div class="header-title">
+
+        </div>
+        <nav class="header-nav">
+            
+            <a href="/" class="header-nav-link" >
+                首页
+            </a>
+            
+
+            
+            <a href="/archives" class="header-nav-link">
+                归档
+            </a>
+            
+
+            
+            <a href="/tags" class="header-nav-link">
+                标签
+            </a>
+            
+
+            
+            <a href="/about/" class="header-nav-link">
+                关于
+            </a>
+            
+        </nav>
+    </div>
+</header>
+<header class="mobile-header">
+    <div class="mobile-nav">
+        <div class="mobile-nav-icon">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <div class="mobile-nav-title">
+            <a href="/" class="mobile-nav-title-link">y11en's Blog</a>
+        </div>
+
+    </div>
+    <nav class="mobile-menu">
+        <ul class="mobile-menu-list">
+            <li class="mobile-menu-item">
+                <i class="iconfont icon-home"></i>
+                <a href="/" class="mobile-nav-link">首页</a>
+            </li>
+            <li class="mobile-menu-item">
+                <i class="iconfont icon-archive"></i>
+                <a href="/archives" class="mobile-nav-link">归档</a>
+            </li>
+            <li class="mobile-menu-item">
+                <i class="iconfont icon-tag"></i>
+                <a href="/tags" class="mobile-nav-link">标签</a>
+            </li>
+            <li class="mobile-menu-item">
+                <i class="iconfont icon-about"></i>
+                <a href="/about/" class="mobile-nav-link">关于</a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<div class="main">
+    <div class="content-inner">
+        <div class="posts">
+    <article class="post-whole">
+        <div class="post-title">
+            <h2 class="title">Elf文件格式学习</h2>
+            <div class="post-meta">
+                <span class="post-time">2016-09-17</span>
+				
+                <span class="post-visit"> 阅读次数：<span id="busuanzi_value_page_pv"></span></span>
+            </div>
+        </div>
+        <div class="post-toc" id="post-toc">
+    <strong class="post-toc-title">目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#背-che-景-dan"><span class="toc-text">背(che)景(dan)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#正-yan-文-su"><span class="toc-text">正(yan)文(su)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#先说下文件对象："><span class="toc-text">先说下文件对象：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Elf文件格式提供了两种视图，一种是链接-文件-视图，一种是运行-内存-视图，"><span class="toc-text">Elf文件格式提供了两种视图，一种是链接(文件)视图，一种是运行(内存)视图，</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#为什么要这么做呢？"><span class="toc-text">为什么要这么做呢？</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Elf组织结构"><span class="toc-text">Elf组织结构</span></a></li></ol></li></ol>
+    <div class="back-to-top" id="back-to-top">
+        <a href="javascript:void(0);">回到顶部</a>
+    </div>
+</div>
+        <div class="post-content">
+            <h2 id="背-che-景-dan"><a href="#背-che-景-dan" class="headerlink" title="背(che)景(dan)"></a>背(che)景(dan)</h2><p>又到了每年的中秋节了，话说从大学开始，对于节日的回忆基本都停留在了学校中，尤其是大三开始，每逢节日都会窝在宿舍中学习一些东西，大三的清明节了解了下<code>缓冲区溢出</code>，大四的清明节，在准备面试，也在学一些东西，貌似是<code>Windows内核</code>啥的。ok，时间转到了大学最后一个学期，清明节忙着写毕设，Wow，终于毕业了，今年中秋搞点啥呢…Elf文件格式。</p>
+<p>为什么学(了)习(解)这个呢？主要是渐渐觉得要去搞移动端安全相关了，所以该有些准备知识了，话说我java也不是菜鸡(虽然N久都没看，没用了)，但那又怎样，所以路线大致是Elf-&gt;Arm汇编-&gt;Dex(smail)-&gt;Apk-&gt;java(native)-&gt;android(hook、anti&amp;prot)-&gt;android(PWN!),这个路线有些扯淡，但目前就这么定了，后面再做<code>大</code>的调整，2333…</p>
+<h2 id="正-yan-文-su"><a href="#正-yan-文-su" class="headerlink" title="正(yan)文(su)"></a>正(yan)文(su)</h2><h3 id="先说下文件对象："><a href="#先说下文件对象：" class="headerlink" title="先说下文件对象："></a>先说下文件对象：</h3><ol>
+<li>可重定位的对象文件(Relocatable file)<br>类似于编译器生产的中间文件，在链接时使用。</li>
+<li>可执行的对象文件(Executable file)<br>可以运行的文件，比如linux下的ls、vi编辑器等</li>
+<li>可被共享的对象文件(Shared object file)<br>应用程序可以将公共函数放在一个文件中(.so)，这样在运行时动态导入，节省了很多磁盘空间</li>
+</ol>
+<h3 id="Elf文件格式提供了两种视图，一种是链接-文件-视图，一种是运行-内存-视图，"><a href="#Elf文件格式提供了两种视图，一种是链接-文件-视图，一种是运行-内存-视图，" class="headerlink" title="Elf文件格式提供了两种视图，一种是链接(文件)视图，一种是运行(内存)视图，"></a>Elf文件格式提供了两种视图，一种是<code>链接(文件)视图</code>，一种是<code>运行(内存)视图</code>，</h3><p><img src="./16-04-05.jpg" alt=""></p>
+<p>上图左侧为链接视图，右侧为运行视图,其中主要区别在section(segment)上，以Android NDK中的helloWord jni程序编译的.so文件为例，使用readelf命令解析一下：<br>使用<code>readelf -S</code> 解析sections<br><img src="./16-07-33.jpg" alt=""><br>可以看到文件有19个section(段或者节)，其中.shstrtab是文件的字符串段，后面出现的关于字符串的字段的值都是在这个字段中的下标值。<br>使用<code>readelf --segments</code>解析运行视图</p>
+<p><img src="./16-11-09.jpg" alt=""><br>现在段变成了6个，可以观察到这些段都是前面section中的项，也就是说elf文件在运行时有些相同属性的段被放在同一个段中。</p>
+<h4 id="为什么要这么做呢？"><a href="#为什么要这么做呢？" class="headerlink" title="为什么要这么做呢？"></a>为什么要这么做呢？</h4><p>原因是目前的os大多都是以页为单位管理内存的，在linux中，典型的页大小的为4096b=4kb，所以即使一个大小不够4kb的数据，都必须分配一个4kb大小的内存，这样对于超多section的视图来说就是在浪费空间，所以linux将相同flg值以及相关属性的section放在一个segment中，方便权限管理，这样内存的浪费也就减小下来，所以从这里可以看出，segment是section的一个子集。</p>
+<h3 id="Elf组织结构"><a href="#Elf组织结构" class="headerlink" title="Elf组织结构"></a>Elf组织结构</h3><p>Elf 文件的大体结构</p>
+<blockquote>
+<ol>
+<li>Elf header 描述整个文件的组织</li>
+<li>Elf program_header_table 描述文件的各种segment，用来告诉系/统如何创建进程映像(一个段 包含 1个或多个section)</li>
+<li>Elf section_header_table 包含文件的各个section的信息</li>
+</ol>
+</blockquote>
+<p>类型<br><img src="./16-23-04.jpg" alt=""></p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="keyword">typedef</span>	DWORD	Elf32_Addr;   </span><br><span class="line"><span class="keyword">typedef</span>	WORD	Elf32_Half;    </span><br><span class="line"><span class="keyword">typedef</span>	DWORD	Elf32_Off;    </span><br><span class="line"><span class="keyword">typedef</span>	DWORD	Elf32_Sword;  </span><br><span class="line"><span class="keyword">typedef</span>	DWORD	Elf32_Word;</span><br></pre></td></tr></table></figure>
+<p>Elf header</p>
+<p><img src="./16-26-53.jpg" alt=""></p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">	<span class="keyword">unsigned</span> <span class="keyword">char</span>	e_ident[EI_NIDENT];</span><br><span class="line">	Elf32_Half		e_type;</span><br><span class="line">					<span class="comment">//	该成员确定该object的类型。</span></span><br><span class="line">					<span class="comment">//	Name        Value  Meaning</span></span><br><span class="line">					<span class="comment">//	====        =====  =======</span></span><br><span class="line">					<span class="comment">//	ET_NONE         0  No file type</span></span><br><span class="line">					<span class="comment">//	ET_REL          1  Relocatable file</span></span><br><span class="line">					<span class="comment">//	ET_EXEC         2  Executable file</span></span><br><span class="line">					<span class="comment">//	ET_DYN          3  Shared object file</span></span><br><span class="line">					<span class="comment">//	ET_CORE         4  Core file</span></span><br><span class="line">					<span class="comment">//	ET_LOPROC  0xff00  Processor-specific</span></span><br><span class="line">					<span class="comment">//	ET_HIPROC  0xffff  Processor-specific</span></span><br><span class="line">	</span><br><span class="line">	Elf32_Half		e_machine;</span><br><span class="line">					<span class="comment">//	该成员变量指出了运行该程序需要的体系结构。</span></span><br><span class="line">					<span class="comment">//	Name      Value  Meaning</span></span><br><span class="line">					<span class="comment">//	====      =====  =======</span></span><br><span class="line">					<span class="comment">//	EM_NONE       0  No machine</span></span><br><span class="line">					<span class="comment">//	EM_M32        1  AT&amp;T WE 32100</span></span><br><span class="line">					<span class="comment">//	EM_SPARC      2  SPARC</span></span><br><span class="line">					<span class="comment">//	EM_386        3  Intel 80386</span></span><br><span class="line">					<span class="comment">//	EM_68K        4  Motorola 68000</span></span><br><span class="line">					<span class="comment">//	EM_88K        5  Motorola 88000</span></span><br><span class="line">					<span class="comment">//	EM_860        7  Intel 80860</span></span><br><span class="line">					<span class="comment">//	EM_MIPS       8  MIPS RS3000</span></span><br><span class="line"></span><br><span class="line">	Elf32_Word		e_version;</span><br><span class="line">					<span class="comment">//	这个成员确定object文件的版本。</span></span><br><span class="line">					<span class="comment">//</span></span><br><span class="line">					<span class="comment">//	Name         Value  Meaning</span></span><br><span class="line">					<span class="comment">//	====         =====  =======</span></span><br><span class="line">					<span class="comment">//	EV_NONE          0  Invalid version</span></span><br><span class="line">					<span class="comment">//	EV_CURRENT       1  Current version</span></span><br><span class="line">	Elf32_Addr		e_entry;</span><br><span class="line">					<span class="comment">//	OEP;</span></span><br><span class="line">					<span class="comment">//	假如文件没有如何关联的入口点，该成员就保持为 0。</span></span><br><span class="line">	Elf32_Off		e_phoff;</span><br><span class="line">					<span class="comment">//	该成员保持着程序头表（program header table）在文件中的偏移量(以字节计数)。 same as NT HEADER</span></span><br><span class="line">					<span class="comment">//	假如该文件没有程序头表的的话，该成员就保持为 0。</span></span><br><span class="line">	Elf32_Off		e_shoff;</span><br><span class="line">					<span class="comment">//	该成员保持着程序头表（section header table）在文件中的偏移量(以字节计数)。 same as NT HEADER</span></span><br><span class="line">					<span class="comment">//	假如该文件没有程序头表的的话，该成员就保持为 0。</span></span><br><span class="line">	Elf32_Word		e_flags;</span><br><span class="line">					<span class="comment">//	该成员保存着相关文件的特定处理器标志。</span></span><br><span class="line">					<span class="comment">//	flag的名字来自于EF_&lt;machine&gt;_&lt;flag&gt;。看下机器信息“Machine Information”部分的flag的定义。</span></span><br><span class="line">	Elf32_Half		e_ehsize;</span><br><span class="line">					<span class="comment">//该成员保存着ELF头大小(以字节计数)。</span></span><br><span class="line">	Elf32_Half		e_phentsize;</span><br><span class="line">					<span class="comment">//	该成员保存着在文件的程序头表（program header table）中一个入口的大小</span></span><br><span class="line">					<span class="comment">//	(以字节计数)。所有的入口都是同样的大小。</span></span><br><span class="line">	Elf32_Half		e_e_phnum;</span><br><span class="line">					<span class="comment">//	该成员保存着在程序头表中入口的个数。</span></span><br><span class="line">					<span class="comment">//	因此，e_phentsize和e_phnum的乘机就是表的大小(以字节计数).</span></span><br><span class="line">					<span class="comment">//	假如没有程序头表（program header table），e_phnum变量为0。</span></span><br><span class="line">	Elf32_Half		e_shentsize;</span><br><span class="line">					<span class="comment">//	该成员保存着section头的大小(以字节计数)。</span></span><br><span class="line">					<span class="comment">//	一个section头是在section头表(section header table)的一个入口；</span></span><br><span class="line">					<span class="comment">//	所有的入口都是同样的大小。</span></span><br><span class="line">	Elf32_Half		e_shnum;</span><br><span class="line">					<span class="comment">//	该成员保存着在section header table中的入口数目。</span></span><br><span class="line">					<span class="comment">//	因此，e_shentsize和e_shnum的乘积就是section头表的大小(以字节计数)。</span></span><br><span class="line">					<span class="comment">//	假如文件没有section头表，e_shnum值为0。</span></span><br><span class="line">	Elf32_Half		e_shstrndx;</span><br><span class="line">					<span class="comment">//	该成员保存着跟section名字字符表相关入口的section头表(section header table)索引。</span></span><br><span class="line">					<span class="comment">//	假如文件中没有section名字字符表，该变量值为SHN_UNDEF。</span></span><br><span class="line">					<span class="comment">//	更详细的信息 看下面“Sections”和字符串表(“String Table”) 。</span></span><br><span class="line"></span><br><span class="line">&#125;Elf32_Ehdr;</span><br></pre></td></tr></table></figure>
+
+<p><img src="./16-27-48.jpg" alt=""><br>program header</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> </span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">	Elf32_Word		p_type;</span><br><span class="line">					<span class="comment">//	Name             Value</span></span><br><span class="line">					<span class="comment">//	====             =====</span></span><br><span class="line">					<span class="comment">//	PT_NULL              0</span></span><br><span class="line">					<span class="comment">//	PT_LOAD              1</span></span><br><span class="line">					<span class="comment">//	PT_DYNAMIC           2</span></span><br><span class="line">					<span class="comment">//	PT_INTERP            3</span></span><br><span class="line">					<span class="comment">//	PT_NOTE              4</span></span><br><span class="line">					<span class="comment">//	PT_SHLIB             5</span></span><br><span class="line">					<span class="comment">//	PT_PHDR              6</span></span><br><span class="line">					<span class="comment">//	PT_LOPROC   0x70000000</span></span><br><span class="line">					<span class="comment">//	PT_HIPROC   0x7fffffff</span></span><br><span class="line">	Elf32_Off		p_offset; </span><br><span class="line">					<span class="comment">//	该成员给出了该段的驻留位置相对于文件开始处的偏移。 offset file</span></span><br><span class="line">	Elf32_Off		p_vadrr;</span><br><span class="line">					<span class="comment">//	该成员给出了该段在内存中的首字节地址。   rva</span></span><br><span class="line">	Elf32_Addr		p_paddr;</span><br><span class="line">					</span><br><span class="line">	Elf32_Word		p_filesz;</span><br><span class="line">					<span class="comment">//	文件映像中该段的字节数；它可能是 0 。</span></span><br><span class="line">	Elf32_Word		p_memsz;</span><br><span class="line">					<span class="comment">//	内存映像中该段的字节数；它可能是 0 。</span></span><br><span class="line">	Elf32_Word		p_flags;</span><br><span class="line">	Elf32_Word		p_align;</span><br><span class="line">					<span class="comment">//	该成员给出了该段在内存和文件中排列值。</span></span><br><span class="line">					<span class="comment">//	0 和 1 表示不需要排列。否则， p_align 必须为正的 2 的幂，</span></span><br><span class="line">					<span class="comment">//	并且 p_vaddr 应当等于 p_offset 模 p_align 。</span></span><br><span class="line">&#125;Elf32_Phdr;</span><br></pre></td></tr></table></figure>
+<p>section header</p>
+<p><img src="./16-28-14.jpg" alt=""></p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line"></span><br><span class="line">	Elf32_Word		sh_name;</span><br><span class="line">					<span class="comment">//	该成员指定了这个section的名字。</span></span><br><span class="line">					<span class="comment">//	它的值是section报头字符表section的索引。[看以下的“String Table”], 以NULL空字符结束。</span></span><br><span class="line">	Elf32_Word		sh_type;</span><br><span class="line">					<span class="comment">//	Section Types, sh_type</span></span><br><span class="line">					<span class="comment">//	---------------------------</span></span><br><span class="line">					<span class="comment">//	Name                 Value    Description</span></span><br><span class="line">					<span class="comment">//	====                 =====    ===========</span></span><br><span class="line">					<span class="comment">//	SHT_NULL				 0    该值表明该section头是无效的；它没有相关的section。</span></span><br><span class="line">					<span class="comment">//	SHT_PROGBITS			 1    该section保存被程序定义了的一些信息，它的格式和意义取决于程序本身。</span></span><br><span class="line">					<span class="comment">//	SHT_SYMTAB				 2    该sections保存着一个符号表（symbol table）。</span></span><br><span class="line">					<span class="comment">//	SHT_STRTAB				 3    该section保存着一个字符串表。</span></span><br><span class="line">					<span class="comment">//	SHT_RELA				 4    该section保存着具有明确加数的重定位入口。</span></span><br><span class="line">					<span class="comment">//	SHT_HASH				 5    该标号保存着一个标号的哈希(hash)表。</span></span><br><span class="line">					<span class="comment">//	SHT_DYNAMIC				 6    该section保存着动态连接的信息。</span></span><br><span class="line">					<span class="comment">//	SHT_NOTE				 7    该section保存着其他的一些标志文件的信息。</span></span><br><span class="line">					<span class="comment">//	SHT_NOBITS				 8    该类型的section在文件中不占空间，但是类似SHT_PROGBITS。</span></span><br><span class="line">					<span class="comment">//	SHT_REL					 9    该section保存着重定位的入口。</span></span><br><span class="line">					<span class="comment">//	SHT_SHLIB				10    该section类型保留但语意没有指明。包含这个类型的section的程序是不符合ABI的。</span></span><br><span class="line">					<span class="comment">//	SHT_DYNSYM				11    该sections保存着一个符号表（symbol table）。</span></span><br><span class="line">					<span class="comment">//	SHT_LOPROC		0x70000000    在这范围之间的值为特定处理器语意保留的。</span></span><br><span class="line">					<span class="comment">//	SHT_HIPROC		0x7fffffff    在这范围之间的值为特定处理器语意保留的。</span></span><br><span class="line">					<span class="comment">//	SHT_LOUSER		0x80000000    该变量为应用程序保留的索引范围的最小边界。</span></span><br><span class="line">					<span class="comment">//	SHT_HIUSER		0xffffffff    该变量为应用程序保留的索引范围的最大边界。</span></span><br><span class="line">	Elf32_Word		sh_flags;</span><br><span class="line">					<span class="comment">//	Section Attribute Flags, sh_flags</span></span><br><span class="line">					<span class="comment">//	-----------------------------------		</span></span><br><span class="line">					<span class="comment">//	Name                Value    Description</span></span><br><span class="line">					<span class="comment">//	====                =====    ===========</span></span><br><span class="line">					<span class="comment">//	SHF_WRITE             0x1    该section包含了在进程执行过程中可被写的数据。</span></span><br><span class="line">					<span class="comment">//	SHF_ALLOC             0x2    该section在进程执行过程中占据着内存。</span></span><br><span class="line">					<span class="comment">//	SHF_EXECINSTR         0x4    该section包含了可执行的机器指令。</span></span><br><span class="line">					<span class="comment">//	SHF_MASKPROC   0xf0000000    所有的包括在这掩码中的位为特定处理语意保留的。</span></span><br><span class="line">	Elf32_Addr		sh_addr;</span><br><span class="line">					<span class="comment">//	假如该section将出现在进程的内存映象空间里，该成员给出了一个该section在内存中的位置。否则，该变量为0。</span></span><br><span class="line">	Elf32_Off		sh_offset;</span><br><span class="line">					<span class="comment">//	该成员变量给出了该section的字节偏移量(从文件开始计数)。</span></span><br><span class="line">	Elf32_Word		sh_size;</span><br><span class="line">					<span class="comment">//	该成员给你了section的字节大小。</span></span><br><span class="line">	Elf32_Word		sh_link;</span><br><span class="line">					<span class="comment">//	该成员保存了一个section报头表的索引连接，它的解释依靠该section的类型。</span></span><br><span class="line">					<span class="comment">//	更多信息参见表"sh_link and sh_info Interpretation"</span></span><br><span class="line">	Elf32_Word		sh_info;</span><br><span class="line">					<span class="comment">//	该成员保存着额外的信息，它的解释依靠该section的类型。</span></span><br><span class="line"></span><br><span class="line">					<span class="comment">//	sh_link and sh_info Interpretation</span></span><br><span class="line"></span><br><span class="line">					<span class="comment">//	-------------------------------------------------------------------------------</span></span><br><span class="line">					<span class="comment">//	sh_type        sh_link                          sh_info</span></span><br><span class="line">					<span class="comment">//	=======        =======                          =======</span></span><br><span class="line">					<span class="comment">//	SHT_DYNAMIC    The section header index of      0</span></span><br><span class="line">					<span class="comment">//	               the string table used by</span></span><br><span class="line">					<span class="comment">//	               entries in the section.</span></span><br><span class="line">					<span class="comment">//	-------------------------------------------------------------------------------</span></span><br><span class="line">					<span class="comment">//	SHT_HASH       The section header index of      0</span></span><br><span class="line">					<span class="comment">//	               the symbol table to which the</span></span><br><span class="line">					<span class="comment">//	               hash table applies.</span></span><br><span class="line">					<span class="comment">//	-------------------------------------------------------------------------------</span></span><br><span class="line">					<span class="comment">//	SHT_REL        The section header index of      The section header index of</span></span><br><span class="line">					<span class="comment">//	SHT_RELA       the associated symbol table.     the section to which the</span></span><br><span class="line">					<span class="comment">//	                                                relocation applies.</span></span><br><span class="line">					<span class="comment">//	-------------------------------------------------------------------------------</span></span><br><span class="line">					<span class="comment">//	SHT_SYMTAB     The section header index of      One greater than the symbol</span></span><br><span class="line">					<span class="comment">//	-------------------------------------------------------------------------------</span></span><br><span class="line">					<span class="comment">//	SHT_DYNSYM     the associated string table.     table index of the last local</span></span><br><span class="line">					<span class="comment">//	               symbol (binding STB_LOCAL).</span></span><br><span class="line">					<span class="comment">//	-------------------------------------------------------------------------------</span></span><br><span class="line">					<span class="comment">//	other          SHN_UNDEF                        0</span></span><br><span class="line">					<span class="comment">//	-------------------------------------------------------------------------------</span></span><br><span class="line">	Elf32_Word		sh_addralign;</span><br><span class="line">					<span class="comment">//	一些sections有地址对齐的约束。</span></span><br><span class="line">	Elf32_Word		sh_entsize;</span><br><span class="line">					<span class="comment">//	一些sections保存着一张固定大小入口的表，就象符号表。</span></span><br><span class="line">					<span class="comment">//	对于这样一个section来说，该成员给出了每个入口的字节大小。</span></span><br><span class="line">					<span class="comment">//	如果该section没有保存着一张固定大小入口的表，该成员就为0。</span></span><br><span class="line"></span><br><span class="line">&#125;Elf32_Shdr;</span><br></pre></td></tr></table></figure>
+
+<p>###关键段(符号表、重定位表、GOT表)<br>####符号表(.dynsym)<br>描述了用来定位、重定位程序中所有的符号定义以及引用的信息，符号指的是经过修饰了的函数名或者变量名，修饰方法由编译器制定。<br><code>010编辑器中Elf解析模板</code><br><img src="./16-48-08.jpg" alt=""><br>符号表的组织结构： </p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> </span></span><br><span class="line"><span class="class">&#123;</span>  </span><br><span class="line">     Elf32_Word st_name;      <span class="comment">//符号表项名称。如果该值非0，则表示符号名的字</span></span><br><span class="line">                                     <span class="comment">//符串表索引(offset)，否则符号表项没有名称。</span></span><br><span class="line">     Elf32_Addr st_value;       <span class="comment">//符号的取值。依赖于具体的上下文，可能是一个绝对值、一个地址等等。</span></span><br><span class="line">     Elf32_Word st_size;         <span class="comment">//符号的尺寸大小。例如一个数据对象的大小是对象中包含的字节数。</span></span><br><span class="line">     <span class="keyword">unsigned</span> <span class="keyword">char</span> st_info;     <span class="comment">//符号的类型和绑定属性。</span></span><br><span class="line">     <span class="keyword">unsigned</span> <span class="keyword">char</span> st_other;    <span class="comment">//未定义。</span></span><br><span class="line">     Elf32_Half st_shndx;        <span class="comment">//每个符号表项都以和其他节区的关系的方式给出定义。</span></span><br><span class="line">　　　　　　　　　　　　　<span class="comment">//此成员给出相关的节区头部表索引。</span></span><br><span class="line">&#125; Elf32_sym;</span><br></pre></td></tr></table></figure>
+<p>####字符串(.dynstr)<br>段描述<br><img src="./16-56-19.jpg" alt=""><br>内容</p>
+<p><img src="./16-58-43.jpg" alt=""><br>其组织形式与符号表相同<br>###重定位表<br>程序经过编辑器-&gt;编译器-&gt;链接器步骤之后，并不能直接去运行，因为很多情况之下编译器是将程序从0地址开始做为基址的，当加载到内存的基地址发生变化后，原来静态计算的变量、函数地址都发生了变化，导致程序不能继续执行，或者.so文件在被加载到一个被占用的基地址时，需要重新加载到其他空闲地址，这样也要涉及到重定位，简单来说，重定位就是将程序运行所需要的函数、变量地址都关联到实际内存地址。<br>重定位表的格式</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span></span></span><br><span class="line"><span class="class">&#123;</span>  </span><br><span class="line">    Elf32_Addr r_offset;     <span class="comment">//重定位动作所适用的位置（受影响的存储单位的第一个字节的偏移或者虚拟地址）</span></span><br><span class="line">    Elf32_Word r_info;       <span class="comment">//要进行重定位的符号表索引，以及将实施的重定位类型（哪些位需要修改，以及如何计算它们的取值）</span></span><br><span class="line">                              <span class="comment">//其中 .rel.dyn 重定位类型一般为R_386_GLOB_DAT和R_386_COPY；.rel.plt为R_386_JUMP_SLOT</span></span><br><span class="line">&#125; Elf32_Rel;</span><br></pre></td></tr></table></figure>
+<p>重定位段：<br><img src="./17-06-53.jpg" alt=""></p>
+<p><em>未完待续……</em></p>
+<p>Ref:</p>
+<ol>
+<li><a href="http://blog.csdn.net/feglass/article/details/51469511" target="_blank" rel="noopener">http://blog.csdn.net/feglass/article/details/51469511</a></li>
+</ol>
+
+        </div>
+        
+        <div class="post-tag">
+            
+            <a class="tag" href="/tags/DayDayUp/" title="DayDayUp">DayDayUp</a>
+            
+        </div>
+        
+    </article>
+</div>
+<div class="paginator">
+    
+        
+            <a class="prev" href="/2016/09/29/%5BMob_Sec_1%5DAndroid_ptrace_inject/">
+                <i class="iconfont icon-prev"></i>
+                <span class="nav-default">android_ptrace_inject</span>
+                <span class="nav-mobile">上一篇</span>
+            </a>
+        
+        
+            <a class="next" href="/2015/10/03/%E4%B8%BB%E5%8A%A8%E9%98%B2%E5%BE%A1%E6%8A%80%E6%9C%AF%E6%B5%85%E6%9E%90/">
+                <span class="nav-default">主动防御技术浅析</span>
+                <span class="nav-mobile">下一篇</span>
+                <i class="iconfont icon-next"></i>
+            </a>
+        
+    
+</div>
+<div id="comment-container"></div>
+    </div>
+</div>
+<footer class="footer-social">
+    
+    <a class="social-link" target="_blank" href="https://github.com/y11en">
+        <i class="iconfont icon-github"></i>
+    </a>
+    
+
+    
+
+    
+
+    <div class="footer-copyright">
+        <p class="time-line">
+            &copy;
+            
+            
+                2015 -
+            
+            2020
+            &nbsp;<i class="iconfont icon-heart"></i>&nbsp;
+            <a target="_blank" href="https://github.com/iJinxin">y11en</a>
+        </p>
+        <p class="theme-info">
+            Powered by <a target="_blank" href="https://hexo.io">Hexo</a>  |  Theme -
+            <a target="_blank" href="https://github.com/iJinxin/hexo-theme-sky">Sky</a>
+        </p>
+    </div>
+</footer>
+</body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<script src="/js/index.js"></script>
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script>
+    
+    var gitment = new Gitment({
+        id: 'Elf文件格式学习',
+        owner: 'y11en',
+        repo: 'blog_r3_comment',
+        oauth: {
+            client_id: '5049946d5d3f1d55996d',
+            client_secret: 'ebe785ea8e3f9b280d57a372588af2a202f0638c'
+        }
+    });
+    gitment.render('comment-container');
+    
+
+</script>
+</html>
