@@ -84,7 +84,7 @@
     
         <article class="post-abstract">
             <div class="post-title">
-                <h2><a class="post-title-link" href="/2017/03/05/%5B%E9%80%86%E5%90%91%E7%AF%87%5Dsmali%E6%B1%87%E7%BC%96%E5%AD%A6%E4%B9%A0/">smali汇编学习</a></h2>
+                <h2><a class="post-title-link" href="/2017/03/05/%5B%E9%80%86%E5%90%91%E7%AF%87%5Darm%E6%8C%87%E4%BB%A4%E5%AD%A6%E4%B9%A0/">arm指令学习</a></h2>
             </div>
             <div class="post-meta">
                 <span class="post-time">2017-03-05</span>
@@ -92,11 +92,38 @@
             </div>
             <div class="post-content">
                 
-                    <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># HelloWorld.smali</span><br><span class="line">.class public LHelloWorld;	# 定义类名</span><br><span class="line">.super Ljava&#x2F;lang&#x2F;Object;	# 父类</span><br><span class="line">.method public static main([Ljava&#x2F;lang&#x2F;String;)V	#声明静态main()方法</span><br><span class="line">	.locals 3	#程序使用v0、v1、v2 以及一个参数</span><br><span class="line">	#.prologue		#代码起始指令</span><br><span class="line">	#数据定义指令</span><br><span class="line">	const&#x2F;16 v0, 0x8</span><br><span class="line">	const&#x2F;4 v1, 0x5</span><br><span class="line">	const&#x2F;4 v2,	0x3</span><br><span class="line">	#数据操作指令</span><br><span class="line">	move v1, v2</span><br><span class="line">	#数组操作指令</span><br><span class="line">	new-array	v0,v0,[I</span><br><span class="line">	array-length v1,v0		#获取数组长度</span><br><span class="line">	#实例操作指令</span><br><span class="line">	new-instance v1,Ljava&#x2F;lang&#x2F;StringBuilder;</span><br><span class="line">	#方法调用</span><br><span class="line">	invoke-direct &#123;v1&#125;,Ljava&#x2F;lang&#x2F;StringBuilder;-&gt;&lt;init&gt;()V</span><br><span class="line">	#跳转指令</span><br><span class="line">	if-nez v0,:cond_0</span><br><span class="line">	goto :goto_0</span><br><span class="line">	:cond_0</span><br><span class="line">	#数据转换</span><br><span class="line">	int-to-float v2,v2</span><br><span class="line">	#数据运算指令</span><br><span class="line">	add-float v2,v2,v2</span><br><span class="line">	#比较指令</span><br><span class="line">	cmpl-float v0,v2,v2</span><br><span class="line">	#字段操作指令</span><br><span class="line">	sget-object v0,Ljava&#x2F;lang&#x2F;System;-&gt;out:Ljava&#x2F;io&#x2F;PrintStream;</span><br><span class="line">	const-string v1 , &quot;Hi,MobSec&quot;		#构造字符串</span><br><span class="line">	#方法调用</span><br><span class="line">	invoke-virtual &#123;v0,v1&#125;,Ljava&#x2F;io&#x2F;PrintStream;-&gt;println(Ljava&#x2F;lang&#x2F;String;)V</span><br><span class="line">	#返回指令</span><br><span class="line">	:goto_0</span><br><span class="line">	return-void</span><br><span class="line">.end method</span><br></pre></td></tr></table></figure>
-<p>使用smali.jar将HelloWorld.smali编译为DEX文件<br>命令如下</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">java -jar smali.jar assemble -o HelloWorld.dex HelloWorld.smali</span><br></pre></td></tr></table></figure>
-<p>接着，需要将这个smali压缩为zip格式的压缩包HelloWorld.zip<br>然后将这个压缩包拷贝到手机中，或者是模拟器中<br>adb命令如下</p>
-<figure class="highlight bat"><table><tr><td class="code"><pre><span class="line">adb push HelloWorld.zip /data/local</span><br><span class="line">[<span class="number">100</span>%] /data/local/HelloWorld.zip</span><br><span class="line"><span class="function">E:\<span class="title">mobileSec</span>\<span class="title">tools</span>\<span class="title">build</span>&gt;<span class="title">adb</span> <span class="title">shell</span> <span class="title">dalvikvm</span> -<span class="title">cp</span> /<span class="title">data</span>/<span class="title">local</span>/<span class="title">HelloWorld.zip</span> <span class="title">HelloWorld</span></span></span><br><span class="line"><span class="function"><span class="title">Hi</span>,<span class="title">MobSec</span></span></span><br></pre></td></tr></table></figure>
+                    <h2 id="1-arm汇编基础"><a href="#1-arm汇编基础" class="headerlink" title="1. arm汇编基础"></a>1. arm汇编基础</h2><h3 id="1-LDMIA-R0-R1-R2-R3-R4"><a href="#1-LDMIA-R0-R1-R2-R3-R4" class="headerlink" title="1. LDMIA R0 , {R1,R2,R3,R4}"></a>1. LDMIA R0 , {R1,R2,R3,R4}</h3><p>LDM为: 多寄存器”内存取”指令<br>IA表示每次LDM指令结束之后R0增加1个字<br>最终结果为R1 = [R0], R1 = [R0+#4], R1 = [R0+#8], R1 = [R0+#0xC]</p>
+<h3 id="2-堆栈寻址-FA、EA、FD、ED"><a href="#2-堆栈寻址-FA、EA、FD、ED" class="headerlink" title="2. 堆栈寻址 (FA、EA、FD、ED)"></a>2. 堆栈寻址 (FA、EA、FD、ED)</h3><p>STMFD SP! , {R1-R7,LR} @ 将R1<del>R7以及LR入栈<br>LDMFD SP! , {R1-R7,LR} @ 将R1</del>R7以及LR出栈</p>
+<h3 id="3-块拷贝寻址"><a href="#3-块拷贝寻址" class="headerlink" title="3. 块拷贝寻址"></a>3. 块拷贝寻址</h3><p>LDM和STM为指令前缀，表示多寄存器寻址，指令后缀(IA、DA、IB、DB)。<br>LDMIA R0!, {R1-R3}  @从R0所指向的内存地址依次取出3个字到R1、R2、R3寄存器<br>STMIA R0!, {R1-R3}  @将R1、R2、R3所存储的内容依次存放在R0所指向的内存。</p>
+<h3 id="4-相对寻址"><a href="#4-相对寻址" class="headerlink" title="4. 相对寻址"></a>4. 相对寻址</h3><pre><code>以当前程序计数器PC的当前值为基地址，将标号标记位置为偏移量，两者相加得
+到有效地址。
+
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">BL NEXT</span><br><span class="line">    ...        </span><br><span class="line">NEXT:</span><br><span class="line">    ...</span><br></pre></td></tr></table></figure></code></pre><h2 id="2-指令集"><a href="#2-指令集" class="headerlink" title="2. 指令集"></a>2. 指令集</h2><h3 id="1-由于arm芯片更新很快，所以指令集很多，使用较为普遍的就是arm指令集以及Thumb指令集。"><a href="#1-由于arm芯片更新很快，所以指令集很多，使用较为普遍的就是arm指令集以及Thumb指令集。" class="headerlink" title="1. 由于arm芯片更新很快，所以指令集很多，使用较为普遍的就是arm指令集以及Thumb指令集。"></a>1. 由于arm芯片更新很快，所以指令集很多，使用较为普遍的就是arm指令集以及Thumb指令集。</h3><p><img src="~/20-47-17.jpg" alt=""><br><img src="~/20-47-25.jpg" alt=""><br><img src="~/20-41-45.jpg" alt=""><br><img src="~/20-47-45.jpg" alt=""><br><img src="~/20-47-55.jpg" alt=""></p>
+<h3 id="2-跳转指令"><a href="#2-跳转指令" class="headerlink" title="2.跳转指令"></a>2.跳转指令</h3><p>arm实现了两种跳转类型，一种是直接使用跳转指令，另外一种则是给PC寄存器直接赋值。</p>
+<h4 id="1-B跳转指令"><a href="#1-B跳转指令" class="headerlink" title="1. B跳转指令"></a>1. B跳转指令</h4><pre><code>结构 B{cond} label    
+直接跳走，如`BNE LABEL`</code></pre><h4 id="2-BL跳转指令"><a href="#2-BL跳转指令" class="headerlink" title="2. BL跳转指令"></a>2. BL跳转指令</h4><pre><code>结构 BL{cond} label    
+执行BL指令时，若条件满足，则首先将当前指令的下一条指令的地址赋值给R14寄存器(LR)，然
+后跳转到label标记的地址处继续执行。一般用在过程调用中，过程结束之后通过`MOV PC, LR`返回</code></pre><h4 id="3-BX带状态切换的跳转指令"><a href="#3-BX带状态切换的跳转指令" class="headerlink" title="3. BX带状态切换的跳转指令"></a>3. BX带状态切换的跳转指令</h4><pre><code>结构 BX{cond}Rm   
+当执行BX指令时，如果条件满足，会判断Rm寄存器的位[0]是否为1，如果是1则会在跳转时自动将CPSR寄存器的T标志位置为1,并将目标位置处的指令解析为Thumb指令，相反，若Rm寄存器的位[0]为0，则将CPSR寄存器的T标志位复位，同时将目标位置的指令解析为arm指令。</code></pre><p> 如下:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">ADR R0, thumbcode + 1</span><br><span class="line">BX R0       @跳转到thumbcode。并且处理器运行为thumb模式</span><br><span class="line">thumbcode:</span><br><span class="line">.code 16</span><br></pre></td></tr></table></figure>
+<h4 id="4-BLX带链接和状态切换的跳转指令"><a href="#4-BLX带链接和状态切换的跳转指令" class="headerlink" title="4.BLX带链接和状态切换的跳转指令"></a>4.BLX带链接和状态切换的跳转指令</h4><pre><code>结构 BLX{cond}Rm
+BLX指令集合了BL和BX的功能，在BX的功能上同时保存返回地址到R14(LR)</code></pre><h3 id="3-寄存器访问指令"><a href="#3-寄存器访问指令" class="headerlink" title="3.寄存器访问指令"></a>3.寄存器访问指令</h3><p>存储器访问指令操作包括从存储区加载数据，存储数据到存储器，寄存器与存储器之间的数据交换等。</p>
+<h4 id="LDR"><a href="#LDR" class="headerlink" title="LDR"></a><code>LDR</code></h4><p>指令包括:<br><code>LDR{type}{cond}Rd,label</code><br><code>LDRD{cond}Rd,Rd2,label</code><br>其中type表示操作的数据大小，取值如下</p>
+<p><img src="~/21-36-36.jpg" alt=""><br><img src="~/21-37-48.jpg" alt=""><br>LDRD依次加载双字的数据,用法如下：<br><code>LDRD R0, R1, label2</code>@从标号labe2加载两个字到R0,R1中</p>
+<h4 id="STR"><a href="#STR" class="headerlink" title="STR"></a><code>STR</code></h4><p>STR用于存储数据到制定地址。格式如下：<br>STR{type}{cond}Rd,label<br>STRD{cond}Rd,Rd2,label<br>用法如下:<br><code>STR R0,[R2,#04]</code> 将R0的值存储到R2+4的地址处</p>
+<h4 id="LDM"><a href="#LDM" class="headerlink" title="LDM"></a><code>LDM</code></h4><p><code>LDM{addr_mode}{cond}Rn{!}reglist</code></p>
+<p><img src="~/21-44-36.jpg" alt=""></p>
+<blockquote>
+<p>特别注意, ! 为可选后缀。如果有 ! 则最终地址会写回到Rn寄存器</p>
+</blockquote>
+<h4 id="STM"><a href="#STM" class="headerlink" title="STM"></a><code>STM</code></h4><p>STM将一个寄存器列表的数据存储到指定的地址单元中。格式如下</p>
+<p><code>STM{addr_mod}{cond}Rn{!}reglist</code></p>
+<h4 id="PUSH-amp-amp-POP"><a href="#PUSH-amp-amp-POP" class="headerlink" title="PUSH&amp;&amp;POP"></a><code>PUSH&amp;&amp;POP</code></h4><p>格式如下：<br>PUSH{cond}reglist<br>POP{cond}reglist<br>栈操作指令</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">PUSH &#123;r0,r4-r7&#125;</span><br><span class="line">POP &#123;r0,r4-r7&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="SWP"><a href="#SWP" class="headerlink" title="SWP"></a><code>SWP</code></h4><p>寄存器之间的数据交换。<br>格式为<code>SWP{B}{cond}Rd,Rm,[Rn]</code><br>B是可选的字节，若有B，则交换字节，否则交换字<br>Rd为临时存放的寄存器，Rm是<code>要替换</code>的值<br>Rn是<code>要被替换</code>的数据地址</p>
+<h2 id="其他逻辑、运算指令，具体还是看手册了解…"><a href="#其他逻辑、运算指令，具体还是看手册了解…" class="headerlink" title="其他逻辑、运算指令，具体还是看手册了解…"></a>其他逻辑、运算指令，具体还是看手册了解…</h2><p>—未完待续—</p>
+
                 
             </div>
         </article>
