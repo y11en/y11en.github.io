@@ -98,7 +98,10 @@
     </div>
 </div>
         <div class="post-content">
-            <p>一个获取手机联系人小Demo<br>布局文件如下</p>
+            <p>一个获取手机联系人小Demo</p>
+<a id="more"></a>
+
+<p>布局文件如下</p>
 <figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">LinearLayout</span> <span class="attr">xmlns:android</span>=<span class="string">"http://schemas.android.com/apk/res/android"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">xmlns:tools</span>=<span class="string">"http://schemas.android.com/tools"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:layout_height</span>=<span class="string">"match_parent"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">tools:context</span>=<span class="string">"com.cn.yllen.contentprovider.MainActivity"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">ListView</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:id</span>=<span class="string">"@+id/conent_view"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:layout_height</span>=<span class="string">"match_parent"</span>&gt;</span><span class="tag">&lt;/<span class="name">ListView</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">LinearLayout</span>&gt;</span></span><br></pre></td></tr></table></figure>
 <p>加入权限申明 </p>
 <figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">uses-permission</span> <span class="attr">android:name</span>=<span class="string">"android.permission.READ_CONTACTS"</span> &gt;</span><span class="tag">&lt;/<span class="name">uses-permission</span>&gt;</span></span><br></pre></td></tr></table></figure>

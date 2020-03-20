@@ -98,7 +98,10 @@
     </div>
 </div>
         <div class="post-content">
-            <p>网上有很多<code>LJ</code>教程，耽误时间不说，真能把人气死，废话不说了，开始<code>Android Studio</code>下<code>NDK</code>开发配置。<br>###1.首先是新建一个android的工程<br>然后新建一个需要用native声明的jni接口类<br>在<code>工程</code>视图下，以<code>app</code>为父节点创建名为<code>jni</code>的文件夹<br><img src="./21-16-17.jpg" alt=""><br>创建<code>JniUtils.java</code>文件，内容如下</p>
+            <p>网上有很多<code>LJ</code>教程，耽误时间不说，真能把人气死，废话不说了，开始<code>Android Studio</code>下<code>NDK</code>开发配置。</p>
+<a id="more"></a>
+
+<p>###1.首先是新建一个android的工程<br>然后新建一个需要用native声明的jni接口类<br>在<code>工程</code>视图下，以<code>app</code>为父节点创建名为<code>jni</code>的文件夹<br><img src="./21-16-17.jpg" alt=""><br>创建<code>JniUtils.java</code>文件，内容如下</p>
 <figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">JniUtils</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">native</span> <span class="keyword">static</span> String  <span class="title">getStringFromC</span><span class="params">()</span></span>;</span><br><span class="line">    <span class="keyword">static</span></span><br><span class="line">    &#123;</span><br><span class="line">        System.loadLibrary(<span class="string">"JniMain"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>主要用来加载<code>so</code>库，并且声明native实现的方法</p>
 <p>###2.接着，生成jni头文件，这里使用<code>javah</code>命令。<br>先将工程命令行切换到当前工程java文件处<br>输入<code>javah -jni com.cn.yllen.myapplication.JniUtils</code>后回车<br><img src="./21-18-32.jpg" alt=""><br>在该目录下则可以看到<code>com_cn_yllen_myapplication_JniUtils.h</code>文件(包名+文件名称构成)<br>内容为</p>

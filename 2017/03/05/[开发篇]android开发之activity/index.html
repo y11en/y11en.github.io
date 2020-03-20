@@ -102,6 +102,8 @@
 <li>Activity:界面交互</li>
 <li>Intent: 数据传递</li>
 </ol>
+<a id="more"></a>
+
 <p>###一个主界面</p>
 <figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">activity</span> <span class="attr">android:name</span>=<span class="string">".MyActivity"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">intent-filter</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">action</span> <span class="attr">android:name</span>=<span class="string">"android.intent.action.MAIN"</span> /&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">category</span> <span class="attr">android:name</span>=<span class="string">"android.intent.category.LAUNCHER"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">intent-filter</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">activity</span>&gt;</span></span><br></pre></td></tr></table></figure>
 <p>其中<code>&quot;android.intent.action.MAIN&quot;</code>表示主界面，apk启动时大多从这里开始启动.<br><code>&quot;android.intent.category.LAUNCHER&quot;</code>展示在系统的LAUNCHER中，没有这个就没有启动图标。</p>
