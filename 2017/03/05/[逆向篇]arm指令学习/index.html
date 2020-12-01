@@ -98,9 +98,11 @@
     </div>
 </div>
         <div class="post-content">
-            <h2 id="1-arm汇编基础"><a href="#1-arm汇编基础" class="headerlink" title="1. arm汇编基础"></a>1. arm汇编基础</h2><h3 id="1-LDMIA-R0-R1-R2-R3-R4"><a href="#1-LDMIA-R0-R1-R2-R3-R4" class="headerlink" title="1. LDMIA R0 , {R1,R2,R3,R4}"></a>1. LDMIA R0 , {R1,R2,R3,R4}</h3><p>LDM为: 多寄存器”内存取”指令<br>IA表示每次LDM指令结束之后R0增加1个字<br>最终结果为R1 = [R0], R1 = [R0+#4], R1 = [R0+#8], R1 = [R0+#0xC]</p>
+            <p>讲解一些arm的指令学习过程</p>
 <a id="more"></a>
 
+
+<h2 id="1-arm汇编基础"><a href="#1-arm汇编基础" class="headerlink" title="1. arm汇编基础"></a>1. arm汇编基础</h2><h3 id="1-LDMIA-R0-R1-R2-R3-R4"><a href="#1-LDMIA-R0-R1-R2-R3-R4" class="headerlink" title="1. LDMIA R0 , {R1,R2,R3,R4}"></a>1. LDMIA R0 , {R1,R2,R3,R4}</h3><p>LDM为: 多寄存器”内存取”指令<br>IA表示每次LDM指令结束之后R0增加1个字<br>最终结果为R1 = [R0], R1 = [R0+#4], R1 = [R0+#8], R1 = [R0+#0xC]</p>
 <h3 id="2-堆栈寻址-FA、EA、FD、ED"><a href="#2-堆栈寻址-FA、EA、FD、ED" class="headerlink" title="2. 堆栈寻址 (FA、EA、FD、ED)"></a>2. 堆栈寻址 (FA、EA、FD、ED)</h3><p>STMFD SP! , {R1-R7,LR} @ 将R1<del>R7以及LR入栈<br>LDMFD SP! , {R1-R7,LR} @ 将R1</del>R7以及LR出栈</p>
 <h3 id="3-块拷贝寻址"><a href="#3-块拷贝寻址" class="headerlink" title="3. 块拷贝寻址"></a>3. 块拷贝寻址</h3><p>LDM和STM为指令前缀，表示多寄存器寻址，指令后缀(IA、DA、IB、DB)。<br>LDMIA R0!, {R1-R3}  @从R0所指向的内存地址依次取出3个字到R1、R2、R3寄存器<br>STMIA R0!, {R1-R3}  @将R1、R2、R3所存储的内容依次存放在R0所指向的内存。</p>
 <h3 id="4-相对寻址"><a href="#4-相对寻址" class="headerlink" title="4. 相对寻址"></a>4. 相对寻址</h3><pre><code>以当前程序计数器PC的当前值为基地址，将标号标记位置为偏移量，两者相加得
@@ -145,15 +147,15 @@ BLX指令集合了BL和BX的功能，在BX的功能上同时保存返回地址�
 <div class="paginator">
     
         
-            <a class="prev" href="/2017/03/05/%5B%E5%BC%80%E5%8F%91%E7%AF%87%5Dandroid%E5%BC%80%E5%8F%91%E4%B9%8B%E7%AE%80%E5%8D%95http%E8%AF%B7%E6%B1%82/">
+            <a class="prev" href="/2017/03/05/%5B%E9%80%86%E5%90%91%E7%AF%87%5DDex%E6%A0%BC%E5%BC%8F%E5%AD%A6%E4%B9%A0/">
                 <i class="iconfont icon-prev"></i>
-                <span class="nav-default">android开发之简单http请求</span>
+                <span class="nav-default">Dex格式学习</span>
                 <span class="nav-mobile">上一篇</span>
             </a>
         
         
-            <a class="next" href="/2017/03/05/%5B%E9%80%86%E5%90%91%E7%AF%87%5DDex%E6%A0%BC%E5%BC%8F%E5%AD%A6%E4%B9%A0/">
-                <span class="nav-default">Dex格式学习</span>
+            <a class="next" href="/2017/03/05/%5B%E9%80%86%E5%90%91%E7%AF%87%5Dsmali%E6%B1%87%E7%BC%96%E5%AD%A6%E4%B9%A0/">
+                <span class="nav-default">smali汇编学习</span>
                 <span class="nav-mobile">下一篇</span>
                 <i class="iconfont icon-next"></i>
             </a>
